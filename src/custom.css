@@ -1,0 +1,25 @@
+/* Custom rules */
+
+.mt-1 {
+  margin-top: 25px !important;
+}
+
+.mt-2 {
+  margin-top: 35px !important;
+}
+
+.mt-3 {
+  margin-top: 60px !important;
+}
+
+.mt-4 {
+  margin-top: 80px !important;
+}
+
+.mt-5 {
+  margin-top: 100px !important;
+}
+
+.bold {
+  font-weight: bold;
+}

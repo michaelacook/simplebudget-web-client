@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import Navbar from "./components/Navbar"
+import Login from "./components/Login"
+import Signup from "./components/Signup"
+import Account from "./components/AccountMenu"
+import AccountDetails from "./components/AccountDetails"
+import FinancialProfile from "./components/FinancialProfile"
 
-function App() {
+export default function App() {
+  const [user, setUser] = useState(true)
+
+  /**
+   * Log out of the current session
+   */
+  const logout = () => {
+    setUser(false)
+  }
+
+  /**
+   * Start a user session
+   */
+  const login = () => {
+    setUser(true)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Navbar user={user} login={login} logout={logout} />
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/signup">
+          <Signup />
+        </Route>
+        <Route path="/account/details" exact>
+          <AccountDetails />
+        </Route>
+        <Route path="/account/finances" exact>
+          <FinancialProfile />
+        </Route>
+      </Switch>
+    </Router>
+  )
 }
-
-export default App;
