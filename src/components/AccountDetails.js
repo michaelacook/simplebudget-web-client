@@ -1,6 +1,8 @@
 import React, { Fragment } from "react"
+import ConfirmDeleteAccountModal from "./ConfirmDeleteAccountModal"
 import {
   Button,
+  Confirm,
   Container,
   Divider,
   Grid,
@@ -9,12 +11,10 @@ import {
   Segment,
   Table,
 } from "semantic-ui-react"
-import AccountMenu from "./AccountMenu"
 
 export default ({ firstName, lastName, email, password }) => {
   return (
     <Fragment>
-      <AccountMenu />
       <Container className="mt-1">
         <Table basic="very">
           <Table.Body>
@@ -41,7 +41,7 @@ export default ({ firstName, lastName, email, password }) => {
           Edit
         </Button>
         <Divider className="mt-2" />
-        <Segment className="mt-1">
+        <Segment className="mt-4">
           <Grid>
             <Grid.Row>
               <Grid.Column width={12} floated="left">
@@ -52,10 +52,7 @@ export default ({ firstName, lastName, email, password }) => {
               </Grid.Column>
 
               <Grid.Column width={4}>
-                <Button size="medium" color="red" floated="right">
-                  <Icon name="warning sign"></Icon>
-                  Delete Account
-                </Button>
+                <ConfirmDeleteAccountModal />
               </Grid.Column>
             </Grid.Row>
           </Grid>

@@ -3,9 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Login from "./components/Login"
 import Signup from "./components/Signup"
-import Account from "./components/AccountMenu"
-import AccountDetails from "./components/AccountDetails"
-import FinancialProfile from "./components/FinancialProfile"
+import Account from "./components/Account"
 
 export default function App() {
   const [user, setUser] = useState(true)
@@ -34,11 +32,8 @@ export default function App() {
         <Route path="/signup">
           <Signup />
         </Route>
-        <Route path="/account/details" exact>
-          <AccountDetails />
-        </Route>
-        <Route path="/account/finances" exact>
-          <FinancialProfile />
+        <Route path="/account/:slug?">
+          <Account />
         </Route>
       </Switch>
     </Router>

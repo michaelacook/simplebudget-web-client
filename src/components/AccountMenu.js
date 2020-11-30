@@ -12,8 +12,8 @@ export default () => {
         <Menu.Item as={NavLink} to="/account/details" name="Account Details" />
         <Menu.Item
           as={NavLink}
-          name="Financial Profile"
           to="/account/finances"
+          name="Financial Profile"
         />
       </Menu>
     </Container>

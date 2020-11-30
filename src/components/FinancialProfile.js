@@ -1,10 +1,10 @@
 import React, { Fragment } from "react"
-import AccountMenu from "./AccountMenu"
+import { Container } from "semantic-ui-react"
 
 export default ({ fixedExpenses, netMonthlyIncome, salary }) => {
   return (
     <Fragment>
-      <AccountMenu />
+      <Container>This will be the financial profile</Container>
     </Fragment>
   )
 }

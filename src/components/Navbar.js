@@ -19,7 +19,7 @@ export default ({ user, login, logout }) => {
           {user ? (
             <Menu.Item
               as={NavLink}
-              to="/account/details"
+              to="/account"
               icon="user"
               name="Account"
             ></Menu.Item>
