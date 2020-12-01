@@ -1,6 +1,7 @@
 import React from "react"
 import { Card, Container, Grid, Header, Button, Icon } from "semantic-ui-react"
 import { Link } from "react-router-dom"
+import Breadcrumb from "./Breadcrumb"
 
 export default ({ user }) => {
   return (
@@ -8,6 +9,7 @@ export default ({ user }) => {
       <Header as="h2" style={{ marginTop: "25px" }}>
         Welcome, {user.firstName}
       </Header>
+      {/* <Breadcrumb size="big" sections={["Home", "Dashboard"]} /> */}
 
       <Grid padded stackable style={{ marginTop: "50px" }}>
         <Grid.Column width={5}>
