@@ -7,7 +7,11 @@ import Account from "./components/Account"
 import Dashboard from "./components/Dashboard"
 
 export default function App() {
-  const [user, setUser] = useState(true)
+  const [user, setUser] = useState({
+    firstName: "Michael",
+    lastName: "Cook",
+    email: "mcook0775@gmail.com",
+  })
 
   /**
    * Log out of the current session
@@ -28,7 +32,7 @@ export default function App() {
       <Navbar user={user} login={login} logout={logout} />
       <Switch>
         <Route path="/" exact>
-          <Dashboard />
+          <Dashboard user={user} />
         </Route>
         <Route path="/login">
           <Login />
