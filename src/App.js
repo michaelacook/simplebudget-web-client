@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar"
 import Login from "./components/Login"
 import Signup from "./components/Signup"
 import Account from "./components/Account"
+import Dashboard from "./components/Dashboard"
 
 export default function App() {
   const [user, setUser] = useState(true)
@@ -26,6 +27,9 @@ export default function App() {
     <Router>
       <Navbar user={user} login={login} logout={logout} />
       <Switch>
+        <Route path="/" exact>
+          <Dashboard />
+        </Route>
         <Route path="/login">
           <Login />
         </Route>
