@@ -1,9 +1,17 @@
 import React from "react"
 import { Card, Container, Grid, Header, Button, Icon } from "semantic-ui-react"
+import { useHistory } from "react-router-dom"
 import { Link } from "react-router-dom"
 import Breadcrumb from "./Breadcrumb"
 
 export default ({ user }) => {
+  const history = useHistory()
+
+  // redirect to login page if user is not authenticated
+  if (!user) {
+    history.push("/login")
+  }
+
   return (
     <Container>
       <Header as="h2" style={{ marginTop: "25px" }}>
