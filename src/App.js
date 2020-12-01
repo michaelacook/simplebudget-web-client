@@ -5,6 +5,7 @@ import Login from "./components/Login"
 import Signup from "./components/Signup"
 import Account from "./components/Account"
 import Dashboard from "./components/Dashboard"
+import NewBudget from "./components/NewBudget"
 
 export default function App() {
   const [user, setUser] = useState({
@@ -33,6 +34,9 @@ export default function App() {
       <Switch>
         <Route path="/" exact>
           <Dashboard user={user} />
+        </Route>
+        <Route path="/budgets/new" exact>
+          <NewBudget />
         </Route>
         <Route path="/login">
           <Login />
