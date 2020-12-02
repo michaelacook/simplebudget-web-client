@@ -5,12 +5,9 @@ import { Link } from "react-router-dom"
 /**
  * Sections is an array of objects containing name and path values
  */
-export default ({ sections, size, ...props }) => {
+export default ({ sections, size, color, ...props }) => {
   return (
-    <Segment
-      className="mt-1"
-      style={{ marginRight: "16px", marginLeft: "16px" }}
-    >
+    <Segment color={color} className="mt-1">
       <Breadcrumb size={size}>
         {sections.map((section, i) => (
           <React.Fragment>
