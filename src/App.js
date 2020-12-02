@@ -6,6 +6,7 @@ import Signup from "./components/Signup"
 import Account from "./components/Account"
 import Dashboard from "./components/Dashboard"
 import NewBudget from "./components/NewBudget"
+import Settings from "./components/Settings"
 
 export default function App() {
   const [user, setUser] = useState({
@@ -46,6 +47,9 @@ export default function App() {
         </Route>
         <Route path="/account/:slug?">
           <Account />
+        </Route>
+        <Route path="/settings" exact>
+          <Settings />
         </Route>
       </Switch>
     </Router>
