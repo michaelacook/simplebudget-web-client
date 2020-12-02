@@ -18,16 +18,19 @@ export default () => {
   const [categoryName, setCategoryName] = useState("")
   const [categoryValue, setCategoryValue] = useState("")
   const [message, setMessage] = useState(true)
+  const [loading, setLoading] = useState(false) // loading set to true when sending a request and waiting for a response
 
   /**
    * Add a category to state from form values
    */
   const addCategory = () => {
-    const category = {}
-    category[categoryName] = categoryValue
-    setCategories([...categories, category])
-    setCategoryName("")
-    setCategoryValue("")
+    if (categoryName && categoryValue) {
+      const category = {}
+      category[categoryName] = categoryValue
+      setCategories([...categories, category])
+      setCategoryName("")
+      setCategoryValue("")
+    }
   }
 
   /**
@@ -120,7 +123,7 @@ export default () => {
             ))}
           </div>
           <Divider hidden />
-          <Button loading={false} size="big">
+          <Button loading={loading} onClick={() => setLoading(true)} size="big">
             Done
           </Button>
         </Form>
