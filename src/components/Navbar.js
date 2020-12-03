@@ -2,9 +2,9 @@ import React from "react"
 import { Menu, Container } from "semantic-ui-react"
 import { NavLink } from "react-router-dom"
 
-export default ({ user, login, logout }) => {
+export default ({ user, login, logout, darkmode }) => {
   return (
-    <Menu inverted>
+    <Menu inverted={!darkmode}>
       <Container>
         <Menu.Item
           as={NavLink}
