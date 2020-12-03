@@ -4,9 +4,6 @@ import ToggleSwitch from "./ToggleSwitch"
 import Breadcrumb from "./Breadcrumb"
 
 export default () => {
-  const foo = () => {
-    console.log("this is a function")
-  }
   return (
     <Container>
       <Breadcrumb
