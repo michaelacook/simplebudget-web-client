@@ -1,13 +1,17 @@
 import React, { useState } from "react"
-import { Button, Container, Form, Header, Segment } from "semantic-ui-react"
+import {
+  Button,
+  Container,
+  Divider,
+  Form,
+  Header,
+  Segment,
+} from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
 
 export default () => {
-  const [payload, setPayload] = useState({})
-  const [titles, setTitles] = useState([
-    { key: 1, text: "Personal", value: "personal" },
-    { key: 2, text: "Business", value: "business" },
-  ])
+  const [amount, setAmount] = useState("")
+  const [budget, setBudget] = useState("")
   const [budgets, setBudgets] = useState([
     {
       title: "Personal",
@@ -24,12 +28,48 @@ export default () => {
       ],
     },
   ])
-  const [budget, setBudget] = useState("")
+  const [category, setCategory] = useState("")
+  const [date, setDate] = useState(new Date())
+  const [loading, setLoading] = useState(false)
+  const [payload, setPayload] = useState([])
+  const [titles, setTitles] = useState([
+    { key: 1, text: "Personal", value: "personal" },
+    { key: 2, text: "Business", value: "business" },
+  ])
 
+  /**
+   * Set budget state based on budget dropdown value
+   * @param {Object} data
+   */
   const handleBudgetDropdownChange = (data) => {
     setBudget(
       budgets.find((budget) => budget.title.toLowerCase() === data.value)
     )
+  }
+
+  /**
+   * Clear state variables needed after adding to payload
+   */
+  const clearState = () => {
+    setAmount("")
+    setCategory("")
+    setDate(new Date())
+  }
+
+  /**
+   * Add a new expenditure to the payload
+   */
+  const addToPayload = () => {
+    setPayload([
+      ...payload,
+      {
+        budget,
+        category,
+        amount,
+        date,
+      },
+    ])
+    clearState()
   }
 
   return (
@@ -55,11 +95,27 @@ export default () => {
               label="Category"
               options={budget.categories}
               placeholder="Category"
+              onChange={(e, data) => setCategory(data.value)}
             ></Form.Select>
-            <Form.Input label="Amount" placeholder="E.g 25.56"></Form.Input>
+            <Form.Input
+              label="Amount"
+              placeholder="E.g 25.56"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            ></Form.Input>
+            <Form.Input
+              type="date"
+              label="Date"
+              value={date}
+              onChange={(e, data) => setDate(data.value)}
+            />
           </Form.Group>
-          <Button>Add</Button>
+          <Button onClick={addToPayload}>Add</Button>
         </Form>
+        <Divider />
+        <Button loading={loading} onClick={(e) => setLoading(!loading)} primary>
+          Done
+        </Button>
       </Segment>
     </Container>
   )
