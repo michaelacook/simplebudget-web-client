@@ -24,7 +24,13 @@ export default () => {
       ],
     },
   ])
-  const [budget, setBudget] = useState(budgets[1])
+  const [budget, setBudget] = useState("")
+
+  const handleBudgetDropdownChange = (data) => {
+    setBudget(
+      budgets.find((budget) => budget.title.toLowerCase() === data.value)
+    )
+  }
 
   return (
     <Container>
@@ -43,6 +49,7 @@ export default () => {
               label="Budget"
               options={titles}
               placeholder="Budget"
+              onChange={(e, data) => handleBudgetDropdownChange(data)}
             ></Form.Select>
             <Form.Select
               label="Category"
