@@ -8,6 +8,7 @@ import Dashboard from "./components/Dashboard"
 import NewBudget from "./components/NewBudget"
 import Settings from "./components/Settings"
 import AddExpense from "./components/AddExpense"
+import ManageBudgets from "./components/ManageBudgets"
 
 export default function App() {
   const [user, setUser] = useState({
@@ -39,6 +40,9 @@ export default function App() {
         </Route>
         <Route path="/budgets/new" exact>
           <NewBudget />
+        </Route>
+        <Route path="/budgets/manage" exact>
+          <ManageBudgets />
         </Route>
         <Route path="/expenditures/new" exact>
           <AddExpense />
