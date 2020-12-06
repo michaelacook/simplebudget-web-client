@@ -28,7 +28,6 @@ export default ({ user }) => {
             size="big"
           >
             <Icon
-              size="large"
               name="add"
               style={{ color: "mediumSeaGreen " }}
             />
@@ -45,7 +44,7 @@ export default ({ user }) => {
             raised
             size="big"
           >
-            <Icon size="large" name="edit" style={{ color: "indianRed " }} />
+            <Icon name="edit" style={{ color: "indianRed " }} />
             Manage Budgets
           </Button>
         </Grid.Column>
@@ -59,7 +58,7 @@ export default ({ user }) => {
             raised
             size="big"
           >
-            <Icon size="large" name="dollar" style={{ color: "darkOrange " }} />
+            <Icon name="dollar" style={{ color: "darkOrange " }} />
             Record Expenditures
           </Button>
         </Grid.Column>
@@ -74,7 +73,6 @@ export default ({ user }) => {
             size="big"
           >
             <Icon
-              size="large"
               name="chart pie"
               style={{ color: "darkOrchid " }}
             />
@@ -92,7 +90,6 @@ export default ({ user }) => {
             size="big"
           >
             <Icon
-              size="large"
               name="chart bar"
               style={{ color: "mediumAquaMarine " }}
             />
@@ -109,7 +106,7 @@ export default ({ user }) => {
             raised
             size="big"
           >
-            <Icon size="large" name="money" style={{ color: "dodgerBlue " }} />
+            <Icon name="money" style={{ color: "dodgerBlue " }} />
             View Spending
           </Button>
         </Grid.Column>
@@ -123,7 +120,7 @@ export default ({ user }) => {
             raised
             size="big"
           >
-            <Icon size="large" name="setting" style={{ color: "salmon " }} />
+            <Icon name="setting" style={{ color: "salmon " }} />
             App Settings
           </Button>
         </Grid.Column>
