@@ -27,10 +27,7 @@ export default ({ user }) => {
             raised
             size="big"
           >
-            <Icon
-              name="add"
-              style={{ color: "mediumSeaGreen " }}
-            />
+            <Icon name="add" style={{ color: "mediumSeaGreen " }} />
             Create New Budget
           </Button>
         </Grid.Column>
@@ -72,10 +69,7 @@ export default ({ user }) => {
             raised
             size="big"
           >
-            <Icon
-              name="chart pie"
-              style={{ color: "darkOrchid " }}
-            />
+            <Icon name="chart pie" style={{ color: "darkOrchid " }} />
             Manage Finances
           </Button>
         </Grid.Column>
@@ -89,10 +83,7 @@ export default ({ user }) => {
             raised
             size="big"
           >
-            <Icon
-              name="chart bar"
-              style={{ color: "mediumAquaMarine " }}
-            />
+            <Icon name="chart bar" style={{ color: "mediumAquaMarine " }} />
             View Statistics
           </Button>
         </Grid.Column>

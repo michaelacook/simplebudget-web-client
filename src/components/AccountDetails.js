@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import ConfirmDeleteAccountModal from "./ConfirmDeleteAccountModal"
+import ConfirmDeleteAccountModal from "./modals/ConfirmDeleteAccountModal"
 import {
   Button,
   Confirm,
