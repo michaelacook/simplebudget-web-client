@@ -36,7 +36,7 @@ export default () => {
       <Segment raised className="mt-2" style={{ padding: "35px" }}>
         <Header as="h2">Edit Budget</Header>
         {budget ? (
-          <Segment raised className="mt-2">
+          <Segment raised className="mt-2" style={{ padding: "35px" }}>
             <Header as="h3">{budget.title}</Header>
             <Divider />
             <Form>
