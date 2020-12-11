@@ -40,7 +40,10 @@ export default () => {
             <Header as="h3">{budget.title}</Header>
             <Divider />
             <Form>
-              <Form.TextArea label="Description" value={budget.description}></Form.TextArea>
+              <Form.TextArea
+                label="Description"
+                value={budget.description}
+              ></Form.TextArea>
               <Form.Select
                 label="Categories"
                 placeholder="Categories"

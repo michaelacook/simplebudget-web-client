@@ -9,13 +9,10 @@ import NewBudget from "./components/NewBudget"
 import Settings from "./components/Settings"
 import AddExpense from "./components/AddExpense"
 import ManageBudgets from "./components/ManageBudgets"
+import EditBudget from "./components/EditBudget"
 
 export default function App() {
-  const [user, setUser] = useState({
-    firstName: "Michael",
-    lastName: "Cook",
-    email: "mcook0775@gmail.com",
-  })
+  const [user, setUser] = useState({})
 
   /**
    * Log out of the current session
@@ -24,19 +21,15 @@ export default function App() {
     setUser(false)
   }
 
-  /**
-   * Start a user session
-   */
-  const login = () => {
-    setUser(true)
-  }
-
   return (
     <Router>
-      <Navbar user={user} login={login} logout={logout} />
+      <Navbar user={user} logout={logout} />
       <Switch>
         <Route path="/" exact>
           <Dashboard user={user} />
+        </Route>
+        <Route path="/budgets/manage/:id" exact>
+          <EditBudget />
         </Route>
         <Route path="/budgets/new" exact>
           <NewBudget />
@@ -48,7 +41,7 @@ export default function App() {
           <AddExpense />
         </Route>
         <Route path="/login">
-          <Login />
+          <Login login={setUser} />
         </Route>
         <Route path="/signup">
           <Signup />

@@ -9,9 +9,7 @@ export default () => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={
-        <Button compact icon="trash" color="red" />
-      }
+      trigger={<Button compact icon="trash" color="red" />}
     >
       <Modal.Header style={{ color: "red" }}>
         <Icon name="warning sign"></Icon>
@@ -20,7 +18,8 @@ export default () => {
       <Modal.Content>
         <Modal.Description>
           <p>
-            Are you sure you want to delete this budget? This action is permanent.
+            Are you sure you want to delete this budget? This action is
+            permanent.
           </p>
         </Modal.Description>
       </Modal.Content>

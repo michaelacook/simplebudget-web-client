@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
 import {
   Button,
   Container,
@@ -8,9 +9,29 @@ import {
   Segment,
 } from "semantic-ui-react"
 
-export default () => {
+export default ({ login }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+
+  const history = useHistory()
+
+  const doLogin = async () => {
+    const response = await fetch("http://localhost:5000/user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization: "Basic " + btoa(`${username}:${password}`),
+      },
+    })
+
+    if (response.status !== 200) {
+      response.json().then((data) => setError(data))
+    } else {
+      response.json().then((user) => login(user))
+      history.push("/")
+    }
+  }
 
   return (
     <Grid centered doubling columns={3} className="mt-5">
@@ -34,7 +55,8 @@ export default () => {
               />
             </Form.Field>
             <Form.Field>
-              <Button size="big" color="primary" fluid>
+              {error ? <p style={{ color: "red" }}>{error.message}</p> : null}
+              <Button onClick={doLogin} size="big" color="primary" fluid>
                 Login
               </Button>
             </Form.Field>
