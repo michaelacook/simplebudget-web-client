@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
+import Cookies from "js-cookie"
 import {
   Button,
+  Checkbox,
   Container,
   Form,
   Header,
@@ -12,6 +14,7 @@ import {
 export default ({ login }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [checkbox, setCheckbox] = useState(false)
   const [error, setError] = useState("")
 
   const history = useHistory()
@@ -30,8 +33,12 @@ export default ({ login }) => {
     } else {
       response
         .json()
-        .then((user) => login(user))
-        .then(() => history.push("/"))
+        .then((user) => {
+          const expires = checkbox ? 365 : 1
+          Cookies.set("user", JSON.stringify(user), { expires })
+          login(user)
+        })
+        .finally(() => history.push("/"))
     }
   }
 
@@ -58,6 +65,12 @@ export default ({ login }) => {
             </Form.Field>
             <Form.Field>
               {error ? <p style={{ color: "red" }}>{error.message}</p> : null}
+              <Form.Field>
+                <Checkbox
+                  label="Keep me logged in"
+                  onChange={(e) => setCheckbox(!checkbox)}
+                />
+              </Form.Field>
               <Button onClick={doLogin} size="big" color="primary" fluid>
                 Login
               </Button>
