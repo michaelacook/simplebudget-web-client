@@ -6,13 +6,14 @@ import {
   Container,
   Divider,
   Grid,
-  Header,
   Icon,
   Segment,
   Table,
 } from "semantic-ui-react"
 
-export default ({ firstName, lastName, email, password }) => {
+export default ({
+  user: { firstName, lastName, email, createdAt, updatedAt },
+}) => {
   return (
     <Fragment>
       <Container className="mt-1">
@@ -20,19 +21,23 @@ export default ({ firstName, lastName, email, password }) => {
           <Table.Body>
             <Table.Row>
               <Table.Cell className="bold">First name</Table.Cell>
-              <Table.Cell>Michael</Table.Cell>
+              <Table.Cell>{firstName}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell className="bold">Last name</Table.Cell>
-              <Table.Cell>Cook</Table.Cell>
+              <Table.Cell>{lastName}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell className="bold">Email</Table.Cell>
-              <Table.Cell>mcook0775@gmail.com</Table.Cell>
+              <Table.Cell>{email}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell className="bold">Account Created</Table.Cell>
-              <Table.Cell>11/29/2020</Table.Cell>
+              <Table.Cell>{new Date(createdAt).toDateString()}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell className="bold">Last Updated</Table.Cell>
+              <Table.Cell>{new Date(updatedAt).toDateString()}</Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>

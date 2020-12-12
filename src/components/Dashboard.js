@@ -7,9 +7,7 @@ export default ({ user }) => {
   return (
     <Container>
       <Header as="h2" style={{ marginTop: "25px" }}>
-        {user ? (
-          `Welcome, ${user.firstName}`
-        ) : null}
+        {user ? `Welcome, ${user.firstName}` : null}
       </Header>
       <Grid padded stackable style={{ marginTop: "50px" }}>
         <Grid.Column width={5}>

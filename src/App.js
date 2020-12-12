@@ -53,7 +53,7 @@ export default function App() {
           <Signup />
         </Route>
         <Route path="/account/:slug?">
-          <Account />
+          <Account user={user} />
         </Route>
         <Route path="/settings" exact>
           <Settings />
