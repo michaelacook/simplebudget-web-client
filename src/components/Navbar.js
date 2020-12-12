@@ -1,6 +1,7 @@
 import React from "react"
 import { Menu, Container } from "semantic-ui-react"
 import { NavLink } from "react-router-dom"
+import ConfirmLogoutModal from "./modals/ConfirmLogoutModal"
 
 export default ({ user, login, logout, darkmode }) => {
   return (
@@ -25,12 +26,11 @@ export default ({ user, login, logout, darkmode }) => {
             ></Menu.Item>
           ) : null}
           {!user ? <Menu.Item as={NavLink} to="/login" name="login" /> : null}
-          <Menu.Item
-            as={NavLink}
-            to="/signup"
-            name={user ? "logout" : "signup"}
-            onClick={logout}
-          />
+          {user ? (
+            <ConfirmLogoutModal user={user} logout={logout} />
+          ) : (
+            <Menu.Item as={NavLink} to="/signup" name="sign up" />
+          )}
         </Menu.Menu>
       </Container>
     </Menu>

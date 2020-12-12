@@ -1,3 +1,7 @@
+/*
+On page refresh, props becomes null. this has to be fixed.
+*/
+
 import React, { Fragment } from "react"
 import ConfirmDeleteAccountModal from "./modals/ConfirmDeleteAccountModal"
 import {
