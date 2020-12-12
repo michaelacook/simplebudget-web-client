@@ -28,8 +28,10 @@ export default ({ login }) => {
     if (response.status !== 200) {
       response.json().then((data) => setError(data))
     } else {
-      response.json().then((user) => login(user))
-      history.push("/")
+      response
+        .json()
+        .then((user) => login(user))
+        .then(() => history.push("/"))
     }
   }
 

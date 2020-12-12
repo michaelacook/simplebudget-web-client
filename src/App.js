@@ -12,7 +12,7 @@ import ManageBudgets from "./components/ManageBudgets"
 import EditBudget from "./components/EditBudget"
 
 export default function App() {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(false)
 
   /**
    * Log out of the current session
