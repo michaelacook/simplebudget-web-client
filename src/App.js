@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import Cookies from "js-cookie"
 import Navbar from "./components/Navbar"
 import Login from "./components/Login"
 import Signup from "./components/Signup"
@@ -12,13 +13,18 @@ import ManageBudgets from "./components/ManageBudgets"
 import EditBudget from "./components/EditBudget"
 
 export default function App() {
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    setUser(JSON.parse(Cookies.get("user") || null))
+  }, [])
 
   /**
    * Log out of the current session
    */
   const logout = () => {
-    setUser(false)
+    setUser(null)
+    Cookies.remove("user")
   }
 
   return (
