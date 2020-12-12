@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
-import { Button, Header, Menu, Modal, Icon } from "semantic-ui-react"
+import { Button, Menu, Modal, Icon } from "semantic-ui-react"
 
 export default ({ user, logout }) => {
   const [open, setOpen] = React.useState(false)
