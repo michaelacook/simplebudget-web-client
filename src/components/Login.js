@@ -1,17 +1,20 @@
 import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 import Cookies from "js-cookie"
 import {
   Button,
   Checkbox,
-  Container,
   Form,
   Header,
   Grid,
+  Message,
   Segment,
 } from "semantic-ui-react"
 
-export default ({ login }) => {
+export default function Login({ login }) {
+  const [queryParams, setQueryParams] = useState(
+    new URLSearchParams(useLocation().search)
+  )
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [checkbox, setCheckbox] = useState(false)
@@ -19,7 +22,7 @@ export default ({ login }) => {
 
   const history = useHistory()
 
-  const doLogin = async () => {
+  async function doLogin() {
     const response = await fetch("http://localhost:5000/user", {
       method: "GET",
       headers: {
@@ -46,6 +49,9 @@ export default ({ login }) => {
     <Grid centered doubling columns={3} className="mt-5">
       <Grid.Column>
         <Segment raised centered>
+          {queryParams.get("newsignup") ? (
+            <Message color="green">Awesome! You can login now</Message>
+          ) : null}
           <Header as="h1" textAlign="center">
             Login
           </Header>
