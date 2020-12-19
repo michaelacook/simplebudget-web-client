@@ -44,8 +44,8 @@ export default function NewBudget({ user }) {
   }
 
   async function doCreateBudget() {
-    setLoading(true)
     if (title && description && categories.length > 0) {
+      setLoading(true)
       const response = await fetch("http://localhost:5000/budget/new", {
         method: "POST",
         headers: {
