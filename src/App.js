@@ -11,6 +11,7 @@ import Settings from "./components/Settings"
 import AddExpense from "./components/AddExpense"
 import ManageBudgets from "./components/ManageBudgets"
 import EditBudget from "./components/EditBudget"
+import PrivateRoute from "./components/PrivateRoute"
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -31,33 +32,33 @@ export default function App() {
     <Router>
       <Navbar user={user} logout={logout} />
       <Switch>
-        <Route path="/" exact>
+        <PrivateRoute user={user} path="/" exact>
           <Dashboard user={user} />
-        </Route>
-        <Route path="/budgets/manage/:id" exact>
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/budgets/manage/:id" exact>
           <EditBudget />
-        </Route>
-        <Route path="/budgets/new" exact>
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/budgets/new" exact>
           <NewBudget user={user} />
-        </Route>
-        <Route path="/budgets/manage" exact>
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/budgets/manage" exact>
           <ManageBudgets />
-        </Route>
-        <Route path="/expenditures/new" exact>
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/expenditures/new" exact>
           <AddExpense />
-        </Route>
+        </PrivateRoute>
         <Route path="/login">
           <Login login={setUser} />
         </Route>
         <Route path="/signup">
           <Signup />
         </Route>
-        <Route path="/account/:slug?">
+        <PrivateRoute user={user} path="/account/:slug?">
           <Account user={user} />
-        </Route>
-        <Route path="/settings" exact>
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/settings" exact>
           <Settings />
-        </Route>
+        </PrivateRoute>
       </Switch>
     </Router>
   )
