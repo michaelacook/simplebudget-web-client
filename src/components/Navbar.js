@@ -5,7 +5,7 @@ import ConfirmLogoutModal from "./modals/ConfirmLogoutModal"
 
 export default ({ user, login, logout, darkmode }) => {
   return (
-    <Menu inverted={!darkmode}>
+    <Menu inverted={!darkmode} style={{ borderRadius: "0" }}>
       <Container>
         <Menu.Item
           as={NavLink}
