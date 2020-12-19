@@ -38,7 +38,7 @@ export default function App() {
           <EditBudget />
         </Route>
         <Route path="/budgets/new" exact>
-          <NewBudget />
+          <NewBudget user={user} />
         </Route>
         <Route path="/budgets/manage" exact>
           <ManageBudgets />

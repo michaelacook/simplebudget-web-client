@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
 import {
   Button,
   Container,
@@ -11,7 +12,7 @@ import {
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
 
-export default () => {
+export default function NewBudget({ user }) {
   const [categories, setCategories] = useState([])
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -19,6 +20,8 @@ export default () => {
   const [categoryValue, setCategoryValue] = useState("")
   const [message, setMessage] = useState(true)
   const [loading, setLoading] = useState(false) // loading set to true when sending a request and waiting for a response
+  const [error, setError] = useState()
+  const history = useHistory()
 
   /**
    * Add a category to state from form values
@@ -38,6 +41,37 @@ export default () => {
    */
   const handleDismiss = () => {
     setMessage(false)
+  }
+
+  async function doCreateBudget() {
+    setLoading(true)
+    if (title && description && categories.length > 0) {
+      const response = await fetch("http://localhost:5000/budget/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          budget: {
+            title,
+            description,
+            total: categories.reduce(
+              (acc, curr) => acc + Number(Object.values(curr)[0]),
+              0
+            ),
+            userId: user.id,
+          },
+          categories,
+        }),
+      })
+      if (response.status !== 201) {
+        setError("Something went wrong. Try again later.")
+        return setLoading(false)
+      }
+      await response.json().then((id) => {
+        history.push(`/budgets/${id}`)
+      })
+    }
   }
 
   return (
@@ -65,6 +99,7 @@ export default () => {
       ) : null}
 
       <Segment raised className="mt-2" style={{ padding: "35px" }}>
+        {error ? <Message color="red">{error}</Message> : null}
         <Header as="h2">Create Budget</Header>
         <Form className="mt-1" fluid>
           <Form.Field width={15}>
@@ -123,7 +158,7 @@ export default () => {
             ))}
           </div>
           <Divider hidden />
-          <Button loading={loading} onClick={() => setLoading(true)} size="big">
+          <Button loading={loading} onClick={() => doCreateBudget()} size="big">
             Done
           </Button>
         </Form>
