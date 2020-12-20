@@ -11,17 +11,8 @@ import {
 import Breadcrumb from "./Breadcrumb"
 import ConfirmDeleteBudgetModal from "./modals/ConfirmDeleteBudgetModal"
 
-export default () => {
-  const [budgets, setBudget] = useState([
-    {
-      title: "My Personal Budget",
-      description: "My personal budget for monthly expenses.",
-      id: 1,
-    },
-    { title: "Side Hustle", description: "For my freelance business.", id: 2 },
-  ])
+export default ({ budgets }) => {
   const [loading, setLoading] = useState(false)
-
   return (
     <Container>
       <Breadcrumb

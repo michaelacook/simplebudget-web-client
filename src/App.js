@@ -42,7 +42,7 @@ export default function App() {
           <NewBudget user={user} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage" exact>
-          <ManageBudgets />
+          <ManageBudgets budgets={user.Budgets} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>
           <AddExpense />
