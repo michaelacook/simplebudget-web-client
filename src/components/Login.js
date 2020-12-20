@@ -22,7 +22,7 @@ export default function Login({ login }) {
   const history = useHistory()
 
   async function doLogin() {
-    const response = await fetch("http://localhost:5000/user", {
+    const response = await fetch("http://localhost:5000/user?budget=true", {
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
@@ -36,6 +36,7 @@ export default function Login({ login }) {
       response
         .json()
         .then((user) => {
+          console.log(user)
           const expires = checkbox ? 365 : 1
           Cookies.set("user", JSON.stringify(user), { expires })
           login(user)
@@ -74,7 +75,6 @@ export default function Login({ login }) {
             />
             {error ? <Message color="red">{error.message}</Message> : null}
           </Form.Field>
-
           <Button onClick={doLogin} size="big" color="primary">
             Login
           </Button>
