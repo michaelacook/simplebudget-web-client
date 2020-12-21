@@ -14,7 +14,7 @@ export default ({ user, login, logout, darkmode }) => {
           name={user ? "dashboard" : "SimpleBudget"}
         />
         {user ? (
-          <Menu.Item as={NavLink} to="/budgets" name="My Budgets" />
+          <Menu.Item as={NavLink} to="/budgets/manage" name="My Budgets" />
         ) : null}
         <Menu.Menu position="right">
           {user ? (

@@ -11,6 +11,7 @@ import Settings from "./components/Settings"
 import AddExpense from "./components/AddExpense"
 import ManageBudgets from "./components/ManageBudgets"
 import EditBudget from "./components/EditBudget"
+import ViewBudget from "./components/ViewBudget"
 import PrivateRoute from "./components/PrivateRoute"
 
 export default function App() {
@@ -42,7 +43,10 @@ export default function App() {
           <NewBudget user={user} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage" exact>
-          <ManageBudgets budgets={user.Budgets} />
+          <ManageBudgets user={user} />
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/budgets/:id">
+          <ViewBudget />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>
           <AddExpense />
