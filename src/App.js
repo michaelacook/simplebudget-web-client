@@ -16,9 +16,24 @@ import PrivateRoute from "./components/PrivateRoute"
 
 export default function App() {
   const [user, setUser] = useState(null)
+  const [budgets, setBudgets] = useState(null)
 
   useEffect(() => {
-    setUser(JSON.parse(Cookies.get("user") || null))
+    const user = JSON.parse(Cookies.get("user"))
+    const { firstName, lastName, email, password, createdAt, updatedAt, Budgets } = user
+    setUser(
+      user
+        ? {
+            firstName,
+            lastName,
+            email,
+            password,
+            createdAt,
+            updatedAt,
+          }
+        : null
+    )
+    setBudgets(Budgets ? Budgets : null)
   }, [])
 
   /**
