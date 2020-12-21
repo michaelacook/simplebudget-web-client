@@ -20,7 +20,15 @@ export default function App() {
 
   useEffect(() => {
     const user = JSON.parse(Cookies.get("user"))
-    const { firstName, lastName, email, password, createdAt, updatedAt, Budgets } = user
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      createdAt,
+      updatedAt,
+      Budgets,
+    } = user
     setUser(
       user
         ? {
@@ -58,7 +66,7 @@ export default function App() {
           <NewBudget user={user} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage" exact>
-          <ManageBudgets user={user} />
+          <ManageBudgets budgets={budgets} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/:id">
           <ViewBudget />

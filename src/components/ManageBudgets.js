@@ -4,7 +4,7 @@ import { Button, Container, Header, List, Segment } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
 import ConfirmDeleteBudgetModal from "./modals/ConfirmDeleteBudgetModal"
 
-export default ({ user }) => {
+export default ({ budgets }) => {
   const [loading, setLoading] = useState(false)
   return (
     <Container>
@@ -18,7 +18,7 @@ export default ({ user }) => {
       <Segment raised className="mt-2" style={{ padding: "35px" }}>
         <Header as="h2">Manage Budgets</Header>
         <List divided relaxed className="mt-2">
-          {user.Budgets.map((budget) => (
+          {budgets.map((budget) => (
             <List.Item style={{ marginBottom: "12px" }}>
               <List.Content>
                 <List.Content floated="right">
