@@ -57,6 +57,25 @@ export default function App() {
   }
 
   /**
+   * Send DELETE request with Basic Auth header to delete a budget
+   * @param {Number} id - budget PK
+   */
+  function deleteBudget(id) {
+    fetch(`http://localhost:5000/budget/${id}/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
+      },
+    })
+      .then(() => {
+        const newBudgetsState = budgets.filter((budget) => budget.id !== id)
+        setBudgets(newBudgetsState)
+      })
+      .catch((error) => console.log(error))
+  }
+
+  /**
    * Get a user based on credentials, send request with Basic Auth header, authenticate user session
    * @param {String} email
    * @param {String} password
@@ -99,7 +118,7 @@ export default function App() {
           <NewBudget user={user} budgets={budgets} setBudgets={setBudgets} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage" exact>
-          <ManageBudgets budgets={budgets} />
+          <ManageBudgets budgets={budgets} deleteBudget={deleteBudget} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/:id">
           <ViewBudget />

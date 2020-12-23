@@ -4,7 +4,7 @@ import { Button, Container, Header, List, Segment } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
 import ConfirmDeleteBudgetModal from "./modals/ConfirmDeleteBudgetModal"
 
-export default ({ budgets }) => {
+export default ({ budgets, deleteBudget }) => {
   const [loading, setLoading] = useState(false)
   return (
     <Container>
@@ -30,7 +30,10 @@ export default ({ budgets }) => {
                         icon="edit"
                         color="green"
                       />
-                      <ConfirmDeleteBudgetModal />
+                      <ConfirmDeleteBudgetModal
+                        deleteBudget={deleteBudget}
+                        budgetId={budget.id}
+                      />
                     </List.Content>
                     <List.Header as={Link} to={`/budgets/${budget.id}`}>
                       {budget.title}

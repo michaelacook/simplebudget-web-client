@@ -1,8 +1,13 @@
 import React, { useState } from "react"
 import { Button, Header, Modal, Icon } from "semantic-ui-react"
 
-export default () => {
+export default ({ deleteBudget, budgetId }) => {
   const [open, setOpen] = React.useState(false)
+
+  function handleConfirm() {
+    deleteBudget(budgetId)
+    setOpen(false)
+  }
 
   return (
     <Modal
@@ -31,7 +36,7 @@ export default () => {
           content="Yes, delete it."
           labelPosition="right"
           icon="checkmark"
-          onClick={() => setOpen(false)}
+          onClick={handleConfirm}
           positive
         />
       </Modal.Actions>
