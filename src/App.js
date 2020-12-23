@@ -19,30 +19,9 @@ export default function App() {
   const [budgets, setBudgets] = useState(null)
 
   useEffect(() => {
-    const user = JSON.parse(Cookies.get("user"))
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      createdAt,
-      updatedAt,
-      Budgets,
-    } = user
-    setUser(
-      user
-        ? {
-            firstName,
-            lastName,
-            email,
-            password,
-            createdAt,
-            updatedAt,
-          }
-        : null
-    )
-    setBudgets(Budgets ? Budgets : null)
-  }, [])
+    setUser(JSON.parse(Cookies.get("user") || null))
+    setBudgets(user ? user.Budgets : null)
+  }, [0])
 
   /**
    * Log out of the current session
@@ -66,7 +45,7 @@ export default function App() {
           <NewBudget user={user} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage" exact>
-          <ManageBudgets budgets={budgets} />
+          <ManageBudgets budgets={user.Budgets} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/:id">
           <ViewBudget />
