@@ -10,7 +10,7 @@ import {
   Message,
 } from "semantic-ui-react"
 
-export default function Login({ login }) {
+export default function Login({ setUser, setBudgets }) {
   const [queryParams, setQueryParams] = useState(
     new URLSearchParams(useLocation().search)
   )
@@ -33,15 +33,32 @@ export default function Login({ login }) {
     if (response.status !== 200) {
       response.json().then((data) => setError(data))
     } else {
-      response
-        .json()
-        .then((user) => {
-          console.log(user)
-          const expires = checkbox ? 365 : 1
-          Cookies.set("user", JSON.stringify(user), { expires })
-          login(user)
-        })
-        .finally(() => history.push("/"))
+      response.json().then((user) => {
+        const expires = checkbox ? 365 : 1
+        Cookies.set("user", JSON.stringify(user), { expires })
+        setUser(user)
+      })
+      await getBudgets()
+      history.push("/")
+    }
+  }
+
+  async function getBudgets() {
+    const response = await fetch("http://localhost:5000/budget/all", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization: "Basic " + btoa(`${username}:${password}`),
+      },
+    })
+
+    if (response.status !== 200) {
+      return null
+    } else {
+      response.json().then((budgets) => {
+        console.log(budgets)
+        setBudgets(budgets)
+      })
     }
   }
 

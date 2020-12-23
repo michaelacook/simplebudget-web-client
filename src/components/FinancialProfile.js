@@ -5,7 +5,7 @@ export default ({ user }) => {
   return (
     <Fragment>
       <Container>
-      <Table basic="very" className="mt-1">
+        <Table basic="very" className="mt-1">
           <Table.Body>
             <Table.Row>
               <Table.Cell className="bold">Net Salary</Table.Cell>
@@ -21,7 +21,9 @@ export default ({ user }) => {
         <Header as="h4">Bills</Header>
         {user.bills ? (
           <Table basic="very"></Table>
-        ) : <p>You currently have no bills.</p>}
+        ) : (
+          <p>You currently have no bills.</p>
+        )}
       </Container>
     </Fragment>
   )
