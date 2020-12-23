@@ -12,7 +12,7 @@ import {
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
 
-export default function NewBudget({ user }) {
+export default function NewBudget({ user, budgets, setBudgets }) {
   const [categories, setCategories] = useState([])
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -68,8 +68,9 @@ export default function NewBudget({ user }) {
         setError("Something went wrong. Try again later.")
         return setLoading(false)
       }
-      await response.json().then((id) => {
-        history.push(`/budgets/${id}`)
+      await response.json().then((budget) => {
+        setBudgets([...budgets, budget])
+        history.push(`/budgets/${budget.id}`)
       })
     }
   }

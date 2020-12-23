@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Cookies from "js-cookie"
 import Navbar from "./components/Navbar"
 import Login from "./components/Login"
@@ -22,7 +17,6 @@ import PrivateRoute from "./components/PrivateRoute"
 export default function App() {
   const [user, setUser] = useState(null)
   const [budgets, setBudgets] = useState(null)
-  const history = useHistory()
 
   useEffect(() => {
     setUser(JSON.parse(Cookies.get("user") || null))
@@ -102,7 +96,7 @@ export default function App() {
           <EditBudget />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/new" exact>
-          <NewBudget user={user} />
+          <NewBudget user={user} budgets={budgets} setBudgets={setBudgets} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage" exact>
           <ManageBudgets budgets={budgets} />
