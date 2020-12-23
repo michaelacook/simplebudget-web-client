@@ -16,12 +16,10 @@ import PrivateRoute from "./components/PrivateRoute"
 
 export default function App() {
   const [user, setUser] = useState(null)
-  const [budgets, setBudgets] = useState(null)
 
   useEffect(() => {
     setUser(JSON.parse(Cookies.get("user") || null))
-    setBudgets(user ? user.Budgets : null)
-  }, [0])
+  }, [])
 
   /**
    * Log out of the current session
@@ -45,7 +43,7 @@ export default function App() {
           <NewBudget user={user} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage" exact>
-          <ManageBudgets budgets={user.Budgets} />
+          <ManageBudgets user={user} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/:id">
           <ViewBudget />
