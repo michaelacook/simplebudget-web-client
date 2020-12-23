@@ -10,7 +10,7 @@ import {
   Message,
 } from "semantic-ui-react"
 
-export default function Login({ setUser, setBudgets }) {
+export default function Login({ login, getBudgets }) {
   const [queryParams, setQueryParams] = useState(
     new URLSearchParams(useLocation().search)
   )
@@ -18,48 +18,12 @@ export default function Login({ setUser, setBudgets }) {
   const [password, setPassword] = useState("")
   const [checkbox, setCheckbox] = useState(false)
   const [error, setError] = useState("")
-
   const history = useHistory()
 
-  async function doLogin() {
-    const response = await fetch("http://localhost:5000/user?budget=true", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization: "Basic " + btoa(`${username}:${password}`),
-      },
-    })
-
-    if (response.status !== 200) {
-      response.json().then((data) => setError(data))
-    } else {
-      response.json().then((user) => {
-        const expires = checkbox ? 365 : 1
-        Cookies.set("user", JSON.stringify(user), { expires })
-        setUser(user)
-      })
-      await getBudgets()
-      history.push("/")
-    }
-  }
-
-  async function getBudgets() {
-    const response = await fetch("http://localhost:5000/budget/all", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization: "Basic " + btoa(`${username}:${password}`),
-      },
-    })
-
-    if (response.status !== 200) {
-      return null
-    } else {
-      response.json().then((budgets) => {
-        console.log(budgets)
-        setBudgets(budgets)
-      })
-    }
+  async function handleLogin() {
+    const user = await login(username, password, checkbox, setError)
+    await getBudgets(user)
+    history.push("/")
   }
 
   return (
@@ -92,7 +56,7 @@ export default function Login({ setUser, setBudgets }) {
             />
             {error ? <Message color="red">{error.message}</Message> : null}
           </Form.Field>
-          <Button onClick={doLogin} size="big" color="primary">
+          <Button onClick={handleLogin} size="big" color="primary">
             Login
           </Button>
         </Form.Field>

@@ -80,7 +80,7 @@ export default function NewBudget({ user }) {
         color="blue"
         sections={[
           { name: "Dashboard", path: "/" },
-          { name: "Budgets", path: "/budgets" },
+          { name: "Budgets", path: "/budgets/manage" },
           { name: "New", path: "/budgets/new" },
         ]}
       />
