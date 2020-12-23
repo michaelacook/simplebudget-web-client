@@ -20,8 +20,8 @@ export default ({
 }) => {
   return (
     <Fragment>
-      <Container className="mt-1">
-        <Table basic="very">
+      <Container>
+        <Table basic="very" className="mt-1">
           <Table.Body>
             <Table.Row>
               <Table.Cell className="bold">First name</Table.Cell>
