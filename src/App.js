@@ -38,6 +38,10 @@ export default function App() {
     Cookies.remove("user")
   }
 
+  /**
+   * Send a request with Basic Auth header, get user's budgets and add to state
+   * @param {Object} user
+   */
   async function getBudgets(user) {
     if (user) {
       const response = await fetch("http://localhost:5000/budget/all", {
@@ -58,6 +62,14 @@ export default function App() {
     }
   }
 
+  /**
+   * Get a user based on credentials, send request with Basic Auth header, authenticate user session
+   * @param {String} email
+   * @param {String} password
+   * @param {Boolean} checkbox
+   * @param {Func} setError
+   * @return {Object} authenticated user
+   */
   async function login(email, password, checkbox, setError) {
     const response = await fetch("http://localhost:5000/user", {
       method: "GET",
