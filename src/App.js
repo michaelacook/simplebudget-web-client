@@ -76,6 +76,26 @@ export default function App() {
   }
 
   /**
+   * Send DELETE request with Basic Auth header to close a user account
+   * After deleting, end user session
+   * @param {Number} id - user PK
+   */
+  function deleteUser(id) {
+    fetch(`http://localhost:5000/user/${id}/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
+      },
+    })
+      .then(() => {
+        setUser(null)
+        setBudgets(null)
+      })
+      .catch((error) => console.log(error))
+  }
+
+  /**
    * Get a user based on credentials, send request with Basic Auth header, authenticate user session
    * @param {String} email
    * @param {String} password
