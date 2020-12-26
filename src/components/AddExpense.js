@@ -17,7 +17,7 @@ export default function AddExpense(props) {
   const [category, setCategory] = useState("")
   const [date, setDate] = useState(new Date())
   const [loading, setLoading] = useState(false)
-  const [payload, setPayload] = useState("")
+  const [payload, setPayload] = useState([])
 
   const budgetTitles = props.budgets.map((budget) => {
     return {
@@ -31,24 +31,38 @@ export default function AddExpense(props) {
    * Set budget state based on budget dropdown value
    * @param {Object} data
    */
-  const handleBudgetDropdownChange = (data) => {
-    console.log(data.value)
+  function handleBudgetDropdownChange(data) {
     setBudget(props.budgets.find((budget) => budget.title === data.value))
   }
 
   /**
-   * Add a new expenditure to the payload
+   * Add a category to state
+   * @param {Object} data - select element data
    */
-  const addToPayload = () => {
-    setPayload([
-      ...payload,
-      {
-        budget: budget.title,
-        category,
-        amount,
-        date,
-      },
-    ])
+  function handleSetCategory(data) {
+    const categoryId = data.value
+    const category = budget.Categories.find(
+      (category) => category.id === categoryId
+    )
+    setCategory(category)
+  }
+
+  /**
+   * Add a new expenditure to the http payload
+   */
+  function addToPayload() {
+    const newPayLoad = payload
+    const [year, month, day] = date.split("-")
+    newPayLoad.push({
+      categoryId: category.id,
+      title: category.title,
+      amount,
+      date,
+      year,
+      month,
+      day,
+    })
+    setPayload(newPayLoad)
     setAmount("")
   }
 
@@ -56,7 +70,7 @@ export default function AddExpense(props) {
    * Remove an expenditure from state
    * @param {Number} i - expenditure index
    */
-  const removeFromPayload = (i) => {
+  function removeFromPayload(i) {
     const newPayload = payload.filter((item, index) => index !== i)
     setPayload(newPayload)
   }
@@ -90,7 +104,7 @@ export default function AddExpense(props) {
               label="Category"
               options={budget.Categories}
               placeholder="Category"
-              onChange={(e, data) => setCategory(data.value)}
+              onChange={(e, data) => handleSetCategory(data)}
             ></Form.Select>
             <Form.Input
               label="Amount"
@@ -121,7 +135,7 @@ export default function AddExpense(props) {
                   <List.Content>
                     <List.Header>{item.budget}</List.Header>
                     <List.Description>
-                      {item.category.toUpperCase()}, ${item.amount}
+                      {item.title}, ${item.amount}
                     </List.Description>
                     <List.Description>{item.date}</List.Description>
                   </List.Content>

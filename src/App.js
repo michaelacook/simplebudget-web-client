@@ -54,7 +54,7 @@ export default function App() {
             budget.Categories.forEach((category) => {
               category.key = category.id
               category.text = category.title
-              category.value = category.title
+              category.value = category.id
             })
           })
           setBudgets(budgets)
