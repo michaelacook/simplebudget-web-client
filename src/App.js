@@ -131,6 +131,21 @@ export default function App() {
     }
   }
 
+  /**
+   * Send a POST request with Basic Auth header to add one or more expenditure
+   * @param {Array} expenditures
+   */
+  function addExpenditure(expenditures) {
+    return fetch("http://localhost:5000/expenditures/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
+      },
+      body: JSON.stringify(expenditures),
+    })
+  }
+
   return (
     <Router>
       <Navbar user={user} logout={logout} />
