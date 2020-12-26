@@ -12,10 +12,8 @@ import {
 import Breadcrumb from "./Breadcrumb"
 
 export default function AddExpense(props) {
-  console.log(props.budgets)
   const [amount, setAmount] = useState("")
   const [budget, setBudget] = useState("")
-  const [budgets, setBudgets] = useState(props.budgets)
   const [category, setCategory] = useState("")
   const [date, setDate] = useState(new Date())
   const [loading, setLoading] = useState(false)
