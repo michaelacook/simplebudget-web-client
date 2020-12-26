@@ -4,7 +4,7 @@ import AccountMenu from "./AccountMenu"
 import AccountDetails from "./AccountDetails"
 import FinancialProfile from "./FinancialProfile"
 
-export default ({ user }) => {
+export default ({ user, deleteUser }) => {
   const { slug } = useParams()
   const history = useHistory()
 
@@ -16,7 +16,7 @@ export default ({ user }) => {
     <Fragment>
       <AccountMenu />
       {slug === "details" || !slug ? (
-        <AccountDetails user={user} />
+        <AccountDetails user={user} deleteUser={deleteUser} />
       ) : (
         <FinancialProfile user={user} />
       )}

@@ -16,7 +16,8 @@ import {
 } from "semantic-ui-react"
 
 export default ({
-  user: { firstName, lastName, email, createdAt, updatedAt },
+  user: { id, firstName, lastName, email, createdAt, updatedAt },
+  deleteUser,
 }) => {
   return (
     <Fragment>
@@ -61,7 +62,10 @@ export default ({
               </Grid.Column>
 
               <Grid.Column width={4}>
-                <ConfirmDeleteAccountModal />
+                <ConfirmDeleteAccountModal
+                  deleteUser={deleteUser}
+                  userId={id}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>

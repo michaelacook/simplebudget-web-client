@@ -1,8 +1,16 @@
 import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
 import { Button, Header, Modal, Icon } from "semantic-ui-react"
 
-export default () => {
+export default ({ deleteUser, userId }) => {
   const [open, setOpen] = React.useState(false)
+  const history = useHistory()
+
+  function handleConfirm() {
+    deleteUser(userId)
+    setOpen(false)
+    history.push("/signup?delete_account=true")
+  }
 
   return (
     <Modal
@@ -36,7 +44,7 @@ export default () => {
           content="I understand the consequences"
           labelPosition="right"
           icon="checkmark"
-          onClick={() => setOpen(false)}
+          onClick={handleConfirm}
           positive
         />
       </Modal.Actions>

@@ -88,7 +88,7 @@ export default function App() {
    * @param {Number} id - user PK
    */
   function deleteUser(id) {
-    fetch(`http://localhost:5000/user/${id}/delete`, {
+    fetch(`http://localhost:5000/user/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
@@ -160,7 +160,7 @@ export default function App() {
           <Signup />
         </Route>
         <PrivateRoute user={user} path="/account/:slug?">
-          <Account user={user} />
+          <Account user={user} deleteUser={deleteUser} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/settings" exact>
           <Settings />

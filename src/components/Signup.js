@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 import {
   Button,
   Container,
@@ -30,6 +30,9 @@ export default function SignUp() {
   const [error, setError] = useState("")
   const [validationErrors, setValidationErrors] = useState(params)
   const [loading, setLoading] = useState(false)
+  const [queryParams, setQueryParams] = useState(
+    new URLSearchParams(useLocation().search)
+  )
   const history = useHistory()
 
   async function doSignUp() {
@@ -82,6 +85,12 @@ export default function SignUp() {
   return (
     <Grid stretched relaxed fluid="true" stackable className="mt-3">
       <Container>
+        {queryParams.get("delete_account") ? (
+          <Message color="blue">
+            We're sorry to see you go! Make a new account any time to manage
+            your spending.
+          </Message>
+        ) : null}
         {error ? <Message color="red">{error}</Message> : null}
         <Header as="h1">Sign Up</Header>
         <Grid.Column className="mt-2">
