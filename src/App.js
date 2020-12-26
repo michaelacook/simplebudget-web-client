@@ -50,6 +50,13 @@ export default function App() {
         return null
       } else {
         response.json().then((budgets) => {
+          budgets.forEach((budget) => {
+            budget.Categories.forEach((category) => {
+              category.key = category.id
+              category.text = category.title
+              category.value = category.title
+            })
+          })
           setBudgets(budgets)
         })
       }
@@ -144,7 +151,7 @@ export default function App() {
           <ViewBudget />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>
-          <AddExpense />
+          <AddExpense budgets={budgets} />
         </PrivateRoute>
         <Route path="/login">
           <Login login={login} getBudgets={getBudgets} />

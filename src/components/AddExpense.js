@@ -11,42 +11,31 @@ import {
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
 
-export default () => {
+export default function AddExpense(props) {
+  console.log(props.budgets)
   const [amount, setAmount] = useState("")
   const [budget, setBudget] = useState("")
-  const [budgets, setBudgets] = useState([
-    {
-      title: "Personal",
-      categories: [
-        { key: 1, text: "Car", value: "car" },
-        { key: 2, text: "Groceries", value: "groceries" },
-      ],
-    },
-    {
-      title: "Business",
-      categories: [
-        { key: 1, text: "Internet", value: "internet" },
-        { key: 2, text: "Debit Machine", value: "debit machine" },
-      ],
-    },
-  ])
+  const [budgets, setBudgets] = useState(props.budgets)
   const [category, setCategory] = useState("")
   const [date, setDate] = useState(new Date())
   const [loading, setLoading] = useState(false)
   const [payload, setPayload] = useState("")
-  const [titles, setTitles] = useState([
-    { key: 1, text: "Personal", value: "personal" },
-    { key: 2, text: "Business", value: "business" },
-  ])
+
+  const budgetTitles = props.budgets.map((budget) => {
+    return {
+      key: budget.id,
+      text: budget.title,
+      value: budget.title,
+    }
+  })
 
   /**
    * Set budget state based on budget dropdown value
    * @param {Object} data
    */
   const handleBudgetDropdownChange = (data) => {
-    setBudget(
-      budgets.find((budget) => budget.title.toLowerCase() === data.value)
-    )
+    console.log(data.value)
+    setBudget(props.budgets.find((budget) => budget.title === data.value))
   }
 
   /**
@@ -95,13 +84,13 @@ export default () => {
             />
             <Form.Select
               label="Budget"
-              options={titles}
+              options={budgetTitles}
               placeholder="Budget"
               onChange={(e, data) => handleBudgetDropdownChange(data)}
             ></Form.Select>
             <Form.Select
               label="Category"
-              options={budget.categories}
+              options={budget.Categories}
               placeholder="Category"
               onChange={(e, data) => setCategory(data.value)}
             ></Form.Select>
