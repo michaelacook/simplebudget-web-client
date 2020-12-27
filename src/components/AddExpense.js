@@ -15,9 +15,11 @@ export default function AddExpense(props) {
   const [amount, setAmount] = useState("")
   const [budget, setBudget] = useState("")
   const [category, setCategory] = useState("")
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState("")
   const [loading, setLoading] = useState(false)
   const [payload, setPayload] = useState([])
+  const [error, setError] = useState("")
+  const [saveButtonText, setSaveButtonText] = useState("Save")
 
   const budgetTitles = props.budgets.map((budget) => {
     return {
@@ -26,6 +28,23 @@ export default function AddExpense(props) {
       value: budget.title,
     }
   })
+
+  /**
+   * Handle click to save expenditures
+   */
+  function handleSave() {
+    setLoading(true)
+    props
+      .addExpenditure(payload)
+      .then(() => {
+        setLoading(false)
+        setAmount("")
+        setDate("")
+        setPayload([])
+        setSaveButtonText("Saved!")
+      })
+      .catch((error) => setError(error))
+  }
 
   /**
    * Set budget state based on budget dropdown value
@@ -145,14 +164,9 @@ export default function AddExpense(props) {
           </React.Fragment>
         ) : null}
         <Divider />
-        <Button
-          compact
-          size="big"
-          loading={loading}
-          onClick={(e) => setLoading(!loading)}
-        >
+        <Button compact size="big" loading={loading} onClick={handleSave}>
           <Icon name="save" />
-          Save
+          {saveButtonText}
         </Button>
       </Segment>
     </Container>

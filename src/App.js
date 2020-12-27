@@ -166,7 +166,7 @@ export default function App() {
           <ViewBudget />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>
-          <AddExpense budgets={budgets} />
+          <AddExpense addExpenditure={addExpenditure} budgets={budgets} />
         </PrivateRoute>
         <Route path="/login">
           <Login login={login} getBudgets={getBudgets} />
