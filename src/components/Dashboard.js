@@ -4,6 +4,9 @@ import { Link } from "react-router-dom"
 import Breadcrumb from "./Breadcrumb"
 
 export default ({ user }) => {
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = date.getMonth()
   return (
     <Container>
       <Header as="h2" style={{ marginTop: "25px" }}>
@@ -85,7 +88,7 @@ export default ({ user }) => {
             className="dashboard-btn"
             fluid
             as={Link}
-            to="/expeditures/current"
+            to={`/expenditures?year=${year}&month=${month}`}
             raised
             size="big"
           >
