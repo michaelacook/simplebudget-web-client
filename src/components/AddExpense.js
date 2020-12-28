@@ -73,6 +73,8 @@ export default function AddExpense(props) {
     const newPayLoad = payload
     const [year, month, day] = date.split("-")
     newPayLoad.push({
+      userId: props.user.id,
+      budgetId: budget.id,
       categoryId: category.id,
       title: category.title,
       amount,
