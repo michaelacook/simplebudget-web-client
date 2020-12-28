@@ -133,6 +133,42 @@ export default function App() {
   }
 
   /**
+   * Send request with Basic Auth header to get expenditures
+   * @param {Number} year
+   * @param {Number} month
+   * @param {Number} day
+   * @param {Number} id
+   * @return {Promise} null on fail, expenditures on success
+   */
+  async function getExpenditures(
+    year = null,
+    month = null,
+    day = null,
+    budgetId = null,
+    id = null
+  ) {
+    const path = `http://localhost:5000/expenditures${
+      id ? "/" + id : ""
+    }?userId=${user.id}&year=${year}${month ? "&month=" + month : ""}${
+      day ? "&day=" + day : ""
+    }${budgetId ? "&budgetId=" + budgetId : ""}`
+    console.log(path)
+    const response = await fetch(path, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
+      },
+    })
+    if (response.status !== 200) {
+      const message = await response.json()
+      return message
+    }
+    const expenditures = await response.json()
+    return expenditures
+  }
+
+  /**
    * Send a POST request with Basic Auth header to add one or more expenditure
    * @param {Array} expenditures
    */
@@ -167,7 +203,11 @@ export default function App() {
           <ViewBudget />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures" exact>
-          <ViewSpending />
+          <ViewSpending
+            user={user}
+            budgets={budgets}
+            getExpenditures={getExpenditures}
+          />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>
           <AddExpense addExpenditure={addExpenditure} budgets={budgets} />
