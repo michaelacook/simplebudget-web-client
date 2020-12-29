@@ -88,7 +88,7 @@ export default ({ user }) => {
             className="dashboard-btn"
             fluid
             as={Link}
-            to={`/expenditures?year=${year}&month=${month}`}
+            to="/expenditures/view"
             raised
             size="big"
           >

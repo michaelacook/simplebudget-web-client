@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 import {
   Button,
   Container,
   Form,
   Header,
-  Sidebar,
+  Message,
+  Pagination,
+  Segment,
   Table,
 } from "semantic-ui-react"
+import Breadcrumb from "./Breadcrumb"
 
 export default function ViewSpending({ getExpenditures, user, budgets }) {
   const months = {
@@ -24,6 +27,8 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
     11: "November",
     12: "December",
   }
+  const [currentPage, setCurrentPage] = useState(1)
+  const [numberOfPages, setNumberOfPages] = useState(1)
   const [budget, setBudget] = useState(budgets[0])
   const [expenditures, setExpenditures] = useState([])
   const [year, setYear] = useState(new Date().getFullYear())
@@ -32,7 +37,7 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
   const [dateText, setDateText] = useState(
     `${month ? months[month] : ""} ${day ? day : ""} ${year}`
   )
-  const [error, setError] = useState(null)
+  const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const accountCreated = Number(user.createdAt.split("-")[0])
   const currentYear = new Date().getFullYear()
@@ -55,8 +60,8 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
   }))
   daySelectOptions.unshift({
     key: "placeholder",
-    text: "Select One",
-    value: "",
+    text: "Any",
+    value: "any",
   })
   const monthSelectOptions = Array.from(new Array(12)).map((_, i) => ({
     key: i + 1,
@@ -65,17 +70,47 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
   }))
   monthSelectOptions.unshift({
     key: "placeholder",
-    text: "Select One",
-    value: "",
+    text: "Any",
+    value: "any",
   })
   const budgetsSelectOptions = budgets.map((budget) => ({
     key: budget.id,
     value: budget.id,
     text: budget.title,
   }))
+  budgetsSelectOptions.unshift({
+    key: "placeholder",
+    text: "Any",
+    value: "any",
+  })
+
+  function chunkArray(array, size) {
+    if (array.length <= size) {
+      return [array]
+    }
+    let result = []
+    for (let value of array) {
+      let lastArray = result[result.length - 1]
+      if (!lastArray || lastArray.length == size) {
+        result.push([value])
+      } else {
+        lastArray.push(value)
+      }
+    }
+    return result
+  }
 
   function handleGetExpenditures() {
+    setExpenditures([])
+    setError("")
+    if (!year) {
+      return setError("Please select a year.")
+    }
+    if (!month && day) {
+      return setError("Please select a month.")
+    }
     setDateText(`${month ? months[month] : ""} ${day ? day : ""} ${year}`)
+    setCurrentPage(1)
     setLoading(true)
     getExpenditures(
       year,
@@ -84,85 +119,121 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
       budget.id ? budget.id : null
     )
       .then((result) => {
-        setExpenditures(result)
+        if (!result.length) {
+          return setError(
+            "There are no results for the selected filter options."
+          )
+        }
+        const pages = chunkArray(result, 10)
+        setExpenditures(pages)
+        setNumberOfPages(pages.length)
       })
       .finally(() => setLoading(false))
-      .catch((error) => setError(error))
+      .catch((error) => setError(error.message))
   }
-
-  function handleChangeBudget(data) {
-    const budget = budgets.find((budget) => budget.id === data.value)
-    setBudget(budget)
-  }
-
-  useEffect(() => {
-    handleGetExpenditures()
-  }, [])
 
   return (
     <Container>
-      <Header as="h1" className="mt-3">
-        Spending for {dateText}
-      </Header>
+      <Breadcrumb
+        color="blue"
+        sections={[
+          { name: "Dashboard", path: "/" },
+          { name: "View Spending", path: "/expenditures/new" },
+        ]}
+      />
 
-      <Form>
-        <Form.Group widths="equal">
-          <Form.Select
-            // width={9}
-            options={budgetsSelectOptions}
-            placeholder="Budgets"
-            onChange={(e, data) => handleChangeBudget(data)}
-          />
-          <Form.Select
-            placeholder="Year"
-            options={yearSelectOptions}
-            // width={4}
-            onChange={(e, data) => setYear(data.value)}
-          />
-          <Form.Select
-            placeholder="Month"
-            options={monthSelectOptions}
-            // width={4}
-            onChange={(e, data) => setMonth(data.value)}
-          />
-          <Form.Select
-            placeholder="Day"
-            options={daySelectOptions}
-            // width={4}
-            onChange={(e, data) => setDay(data.value)}
-          />
-        </Form.Group>
-        <Button onClick={handleGetExpenditures} loading={loading}>
-          Go
-        </Button>
-      </Form>
-
-      {expenditures.length ? (
-        <Table celled stackable selectable striped className="mt-2">
-          <Table.Header>
-            <Table.HeaderCell>Budget</Table.HeaderCell>
-            <Table.HeaderCell>Category</Table.HeaderCell>
-            <Table.HeaderCell>Amount</Table.HeaderCell>
-            <Table.HeaderCell>Month</Table.HeaderCell>
-            <Table.HeaderCell>Day</Table.HeaderCell>
-            <Table.HeaderCell>Year</Table.HeaderCell>
-          </Table.Header>
-          <Table.Body>
-            {expenditures.map((expenditure) => (
-              <Table.Row>
-                <Table.Cell>{expenditure.Budget.title}</Table.Cell>
-                <Table.Cell>{expenditure.Category.title}</Table.Cell>
-                <Table.Cell>{expenditure.amount}</Table.Cell>
-                <Table.Cell>{months[expenditure.month]}</Table.Cell>
-                <Table.Cell>{expenditure.day}</Table.Cell>
-                <Table.Cell>{expenditure.year}</Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-      ) : (
-        <p>There are no expenditures for the selected month, day or year.</p>
-      )}
+      <Segment raised className="mt-2" style={{ padding: "35px" }}>
+        <Header as="h1">Spending for {dateText}</Header>
+        <Form className="mt-2">
+          <Form.Group>
+            <Form.Select
+              options={budgetsSelectOptions}
+              placeholder="Budgets"
+              onChange={(e, data) =>
+                setBudget(
+                  data.value === "any"
+                    ? ""
+                    : budgets.find((budget) => budget.id === data.value)
+                )
+              }
+            />
+            <Form.Select
+              placeholder="Year"
+              options={yearSelectOptions}
+              onChange={(e, data) => setYear(data.value)}
+            />
+            <Form.Select
+              placeholder="Month"
+              options={monthSelectOptions}
+              onChange={(e, data) =>
+                setMonth(data.value === "any" ? "" : data.value)
+              }
+            />
+            <Form.Select
+              placeholder="Day"
+              options={daySelectOptions}
+              onChange={(e, data) =>
+                setDay(data.value === "any" ? "" : data.value)
+              }
+            />
+            <Button compact onClick={handleGetExpenditures} loading={loading}>
+              Go
+            </Button>
+          </Form.Group>
+        </Form>
+        {expenditures.length ? (
+          <Table celled stackable selectable striped>
+            <Table.Header>
+              <Table.HeaderCell>Budget</Table.HeaderCell>
+              <Table.HeaderCell>Category</Table.HeaderCell>
+              <Table.HeaderCell>Amount</Table.HeaderCell>
+              <Table.HeaderCell>Month</Table.HeaderCell>
+              <Table.HeaderCell>Day</Table.HeaderCell>
+              <Table.HeaderCell>Year</Table.HeaderCell>
+            </Table.Header>
+            <Table.Body>
+              {expenditures[currentPage - 1].map((expenditure) => (
+                <Table.Row>
+                  <Table.Cell>{expenditure.Budget.title}</Table.Cell>
+                  <Table.Cell>{expenditure.Category.title}</Table.Cell>
+                  <Table.Cell>
+                    <Link to={`/expenditures/${expenditure.id}`}></Link>
+                    {expenditure.amount}
+                  </Table.Cell>
+                  <Table.Cell>{months[expenditure.month]}</Table.Cell>
+                  <Table.Cell>{expenditure.day}</Table.Cell>
+                  <Table.Cell>{expenditure.year}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+            {numberOfPages > 1 ? (
+              <Table.Footer>
+                <Table.Row>
+                  <Table.HeaderCell colSpan="6">
+                    <Pagination
+                      onPageChange={(e, data) =>
+                        setCurrentPage(data.activePage)
+                      }
+                      boundaryRange={0}
+                      defaultActivePage={1}
+                      ellipsisItem={null}
+                      firstItem={null}
+                      lastItem={null}
+                      siblingRange={1}
+                      totalPages={numberOfPages}
+                    />
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Footer>
+            ) : null}
+          </Table>
+        ) : null}
+        {error ? (
+          <Message className="mt-1" color="yellow">
+            {error}
+          </Message>
+        ) : null}
+      </Segment>
     </Container>
   )
 }

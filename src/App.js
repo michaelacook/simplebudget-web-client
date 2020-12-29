@@ -132,16 +132,8 @@ export default function App() {
     }
   }
 
-  /**
-   * Send request with Basic Auth header to get expenditures
-   * @param {Number} year
-   * @param {Number} month
-   * @param {Number} day
-   * @param {Number} id
-   * @return {Promise} null on fail, expenditures on success
-   */
   async function getExpenditures(
-    year = null,
+    year,
     month = null,
     day = null,
     budgetId = null,
@@ -149,9 +141,9 @@ export default function App() {
   ) {
     const path = `http://localhost:5000/expenditures${
       id ? "/" + id : ""
-    }?userId=${user.id}&year=${year}${month ? "&month=" + month : ""}${
+    }?year=${year}${month ? "&month=" + month : ""}${
       day ? "&day=" + day : ""
-    }${budgetId ? "&budgetId=" + budgetId : ""}`
+    }&userId=${user.id}${budgetId ? "&budgetId=" + budgetId : ""}`
     console.log(path)
     const response = await fetch(path, {
       method: "GET",
@@ -161,8 +153,7 @@ export default function App() {
       },
     })
     if (response.status !== 200) {
-      const message = await response.json()
-      return message
+      return null
     }
     const expenditures = await response.json()
     return expenditures
@@ -202,7 +193,7 @@ export default function App() {
         <PrivateRoute user={user} path="/budgets/:id">
           <ViewBudget />
         </PrivateRoute>
-        <PrivateRoute user={user} path="/expenditures" exact>
+        <PrivateRoute user={user} path="/expenditures/view" exact>
           <ViewSpending
             user={user}
             budgets={budgets}
@@ -210,11 +201,7 @@ export default function App() {
           />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>
-          <AddExpense
-            user={user}
-            addExpenditure={addExpenditure}
-            budgets={budgets}
-          />
+          <AddExpense addExpenditure={addExpenditure} budgets={budgets} />
         </PrivateRoute>
         <Route path="/login">
           <Login login={login} getBudgets={getBudgets} />
