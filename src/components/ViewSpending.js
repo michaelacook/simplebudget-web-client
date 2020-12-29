@@ -208,9 +208,10 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
                 <Table.Row>
                   <Table.Cell>{expenditure.Budget.title}</Table.Cell>
                   <Table.Cell>{expenditure.Category.title}</Table.Cell>
-                  <Table.Cell>
-                    <Link to={`/expenditures/${expenditure.id}`}></Link>
-                    {expenditure.amount}
+                  <Table.Cell selectable>
+                    <Link to={`/expenditures/${expenditure.id}`}>
+                      {expenditure.amount}
+                    </Link>
                   </Table.Cell>
                   <Table.Cell>{months[expenditure.month]}</Table.Cell>
                   <Table.Cell>{expenditure.day}</Table.Cell>
