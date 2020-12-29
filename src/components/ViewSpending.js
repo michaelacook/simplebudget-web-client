@@ -145,8 +145,9 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
       <Segment raised className="mt-2" style={{ padding: "35px" }}>
         <Header as="h1">Spending for {dateText}</Header>
         <Form className="mt-2">
-          <Form.Group>
+          <Form.Group widths="equal">
             <Form.Select
+              fluid
               options={budgetsSelectOptions}
               placeholder="Budgets"
               onChange={(e, data) =>
@@ -158,11 +159,13 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
               }
             />
             <Form.Select
+              fluid
               placeholder="Year"
               options={yearSelectOptions}
               onChange={(e, data) => setYear(data.value)}
             />
             <Form.Select
+              fluid
               placeholder="Month"
               options={monthSelectOptions}
               onChange={(e, data) =>
@@ -170,31 +173,40 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
               }
             />
             <Form.Select
+              fluid
               placeholder="Day"
               options={daySelectOptions}
               onChange={(e, data) =>
                 setDay(data.value === "any" ? "" : data.value)
               }
             />
-            <Button compact onClick={handleGetExpenditures} loading={loading}>
-              Go
-            </Button>
+            <Form.Field fluid>
+              <Button
+                onClick={handleGetExpenditures}
+                loading={loading}
+                style={{ padding: "12.2px 15px" }}
+              >
+                Go
+              </Button>
+            </Form.Field>
           </Form.Group>
         </Form>
         {expenditures.length ? (
-          <Table celled stackable selectable striped>
+          <Table celled selectable stackable striped>
             <Table.Header>
-              <Table.HeaderCell>Budget</Table.HeaderCell>
-              <Table.HeaderCell>Category</Table.HeaderCell>
-              <Table.HeaderCell>Amount</Table.HeaderCell>
-              <Table.HeaderCell>Month</Table.HeaderCell>
-              <Table.HeaderCell>Day</Table.HeaderCell>
-              <Table.HeaderCell>Year</Table.HeaderCell>
+              <Table.Row>
+                <Table.HeaderCell>Budget</Table.HeaderCell>
+                <Table.HeaderCell>Category</Table.HeaderCell>
+                <Table.HeaderCell>Amount</Table.HeaderCell>
+                <Table.HeaderCell>Month</Table.HeaderCell>
+                <Table.HeaderCell>Day</Table.HeaderCell>
+                <Table.HeaderCell>Year</Table.HeaderCell>
+              </Table.Row>
             </Table.Header>
             <Table.Body>
               {expenditures[currentPage - 1].map((expenditure) => (
                 <Table.Row>
-                  <Table.Cell>{expenditure.Budget.title}</Table.Cell>
+                  <Table.Cell collapsing>{expenditure.Budget.title}</Table.Cell>
                   <Table.Cell>{expenditure.Category.title}</Table.Cell>
                   <Table.Cell>
                     <Link to={`/expenditures/${expenditure.id}`}></Link>
