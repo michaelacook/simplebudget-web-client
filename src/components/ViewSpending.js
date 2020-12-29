@@ -206,7 +206,7 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
             <Table.Body>
               {expenditures[currentPage - 1].map((expenditure) => (
                 <Table.Row>
-                  <Table.Cell collapsing>{expenditure.Budget.title}</Table.Cell>
+                  <Table.Cell>{expenditure.Budget.title}</Table.Cell>
                   <Table.Cell>{expenditure.Category.title}</Table.Cell>
                   <Table.Cell>
                     <Link to={`/expenditures/${expenditure.id}`}></Link>
