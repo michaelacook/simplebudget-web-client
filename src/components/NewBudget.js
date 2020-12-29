@@ -11,6 +11,7 @@ import {
   Segment,
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
+import ProTip from "./ProTip"
 
 export default function NewBudget({ user, budgets, setBudgets }) {
   const [categories, setCategories] = useState([])
@@ -18,7 +19,6 @@ export default function NewBudget({ user, budgets, setBudgets }) {
   const [description, setDescription] = useState("")
   const [categoryName, setCategoryName] = useState("")
   const [categoryValue, setCategoryValue] = useState("")
-  const [message, setMessage] = useState(true)
   const [loading, setLoading] = useState(false) // loading set to true when sending a request and waiting for a response
   const [error, setError] = useState()
   const history = useHistory()
@@ -34,13 +34,6 @@ export default function NewBudget({ user, budgets, setBudgets }) {
       setCategoryName("")
       setCategoryValue("")
     }
-  }
-
-  /**
-   * Dismiss message
-   */
-  const handleDismiss = () => {
-    setMessage(false)
   }
 
   async function doCreateBudget() {
@@ -86,18 +79,11 @@ export default function NewBudget({ user, budgets, setBudgets }) {
         ]}
       />
 
-      {message ? (
-        <Message onDismiss={handleDismiss} info className="mt-2">
-          <Message.Header>
-            <Icon name="idea" /> Pro Tip
-          </Message.Header>
-          <p>
-            A budget should center on a theme (i.e, personal, side hustle, etc).
-            You can specify as many item categories as you want. To delete a
-            budget item, click it's button.
-          </p>
-        </Message>
-      ) : null}
+      <ProTip
+        text="A budget should center on a theme (i.e, personal, side hustle, etc). You
+        can specify as many item categories as you want. To delete a budget
+        item, click it's button."
+      />
 
       <Segment raised className="mt-2" style={{ padding: "35px" }}>
         {error ? <Message color="red">{error}</Message> : null}

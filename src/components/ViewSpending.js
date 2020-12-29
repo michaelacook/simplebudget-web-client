@@ -11,6 +11,7 @@ import {
   Table,
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
+import ProTip from "./ProTip"
 
 export default function ViewSpending({ getExpenditures, user, budgets }) {
   const months = {
@@ -141,6 +142,8 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
           { name: "View Spending", path: "/expenditures/new" },
         ]}
       />
+
+      <ProTip text="To view an individual expenditure and edit or delete, click on the expenditure amount." />
 
       <Segment raised className="mt-2" style={{ padding: "35px" }}>
         <Header as="h1">Spending for {dateText}</Header>
