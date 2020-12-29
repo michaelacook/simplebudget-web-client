@@ -110,24 +110,28 @@ export default function AddExpense(props) {
         <Form className="mt-1">
           <Form.Group widths="equal">
             <Form.Input
+              fluid
               type="date"
               label="Date"
               value={date}
               onChange={(e, data) => setDate(data.value)}
             />
             <Form.Select
+              fluid
               label="Budget"
               options={budgetTitles}
               placeholder="Budget"
               onChange={(e, data) => handleBudgetDropdownChange(data)}
             ></Form.Select>
             <Form.Select
+              fluid
               label="Category"
               options={budget.Categories}
               placeholder="Category"
               onChange={(e, data) => handleSetCategory(data)}
             ></Form.Select>
             <Form.Input
+              fluid
               label="Amount"
               placeholder="E.g 25.56"
               value={amount}
