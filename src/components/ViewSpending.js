@@ -209,7 +209,10 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
                   <Table.Cell>{expenditure.Budget.title}</Table.Cell>
                   <Table.Cell>{expenditure.Category.title}</Table.Cell>
                   <Table.Cell selectable>
-                    <Link to={`/expenditures/${expenditure.id}`}>
+                    <Link
+                      to={`/expenditures/${expenditure.id}`}
+                      target="_blank"
+                    >
                       {expenditure.amount}
                     </Link>
                   </Table.Cell>
@@ -242,7 +245,7 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
           </Table>
         ) : null}
         {error ? (
-          <Message className="mt-1" color="yellow">
+          <Message compact className="mt-1" color="yellow">
             {error}
           </Message>
         ) : null}
