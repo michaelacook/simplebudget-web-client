@@ -1,12 +1,13 @@
 import React from "react"
-import { Card, Container, Grid, Header, Button, Icon } from "semantic-ui-react"
-import { Link } from "react-router-dom"
-import Breadcrumb from "./Breadcrumb"
+import { Container, Grid, Header, Button, Icon } from "semantic-ui-react"
+import { Link, useHistory } from "react-router-dom"
+import Reminder from "./Reminder"
 
 export default ({ user }) => {
   const date = new Date()
   const year = date.getFullYear()
   const month = date.getMonth()
+
   return (
     <Container>
       <Header as="h2" style={{ marginTop: "25px" }}>

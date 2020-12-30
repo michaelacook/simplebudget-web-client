@@ -182,7 +182,7 @@ export default function App() {
       <Navbar user={user} logout={logout} />
       <Switch>
         <PrivateRoute user={user} path="/" exact>
-          <Dashboard user={user} />
+          <Dashboard user={user} logout={logout} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage/:id" exact>
           <EditBudget />
