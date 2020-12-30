@@ -74,7 +74,7 @@ export default ({ user }) => {
             className="dashboard-btn"
             fluid
             as={Link}
-            to="/expenditures/current/statistics"
+            to="/statistics"
             raised
             size="big"
           >
