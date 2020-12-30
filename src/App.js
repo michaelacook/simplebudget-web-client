@@ -202,7 +202,11 @@ export default function App() {
           />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>
-          <AddExpense addExpenditure={addExpenditure} budgets={budgets} />
+          <AddExpense
+            user={user}
+            addExpenditure={addExpenditure}
+            budgets={budgets}
+          />
         </PrivateRoute>
         <PrivateRoute user={user} path="/statistics" exact>
           <ViewStatistics />
