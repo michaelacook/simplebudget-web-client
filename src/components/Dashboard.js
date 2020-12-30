@@ -74,6 +74,20 @@ export default ({ user }) => {
             className="dashboard-btn"
             fluid
             as={Link}
+            to="/bills/new"
+            raised
+            size="big"
+          >
+            <Icon name="add" style={{ color: "mediumSeaGreen " }} />
+            Record Bills
+          </Button>
+        </Grid.Column>
+
+        <Grid.Column width={5}>
+          <Button
+            className="dashboard-btn"
+            fluid
+            as={Link}
             to="/statistics"
             raised
             size="big"
