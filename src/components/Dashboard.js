@@ -60,12 +60,12 @@ export default ({ user }) => {
             className="dashboard-btn"
             fluid
             as={Link}
-            to="/finances/manage"
+            to="/bills"
             raised
             size="big"
           >
             <Icon name="chart pie" style={{ color: "darkOrchid " }} />
-            Manage Finances
+            Manage Bills
           </Button>
         </Grid.Column>
 

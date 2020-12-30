@@ -14,6 +14,7 @@ import EditBudget from "./components/EditBudget"
 import ViewBudget from "./components/ViewBudget"
 import ViewSpending from "./components/ViewSpending"
 import ViewStatistics from "./components/ViewStatistics"
+import ManageBills from "./components/ManageBills"
 import PrivateRoute from "./components/PrivateRoute"
 
 export default function App() {
@@ -207,6 +208,9 @@ export default function App() {
             addExpenditure={addExpenditure}
             budgets={budgets}
           />
+        </PrivateRoute>
+        <PrivateRoute user={user} to="/bills" exact>
+          <ManageBills />
         </PrivateRoute>
         <PrivateRoute user={user} path="/statistics" exact>
           <ViewStatistics />
