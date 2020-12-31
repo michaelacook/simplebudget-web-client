@@ -216,7 +216,7 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
                       to={`/expenditures/${expenditure.id}`}
                       target="_blank"
                     >
-                      {expenditure.amount}
+                      ${expenditure.amount.toFixed(2)}
                     </Link>
                   </Table.Cell>
                   <Table.Cell>{months[expenditure.month]}</Table.Cell>
