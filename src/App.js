@@ -40,6 +40,8 @@ export default function App() {
     setUser(null)
     setBudgets(null)
     Cookies.remove("user")
+    Cookies.remove("budgets")
+    Cookies.remove("bills")
   }
 
   /**
