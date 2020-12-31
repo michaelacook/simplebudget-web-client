@@ -27,7 +27,7 @@ export default function NewBudget({ user, budgets, setBudgets, addBudget }) {
   /**
    * Add a category to state from form values
    */
-  const addCategory = () => {
+  function addCategory() {
     if (categoryName && categoryValue) {
       const category = {}
       category[categoryName] = categoryValue
