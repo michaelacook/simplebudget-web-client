@@ -43,25 +43,46 @@ export default function App() {
   }
 
   /**
+   * Send a server request
+   * @param {String} url - resource
+   * @param {String} method - HTTP verb
+   * @param {Object} user - send Basic Auth header if user present
+   * @param {Object} body - send HTTP payload if present
+   * @return {Func} fetch request
+   */
+  function HTTPRequest(url, method, user, body = null) {
+    const headers = {
+      "Content-Type": "application/json; charset=utf-8",
+    }
+    if (user) {
+      headers["Authorization"] =
+        "Basic " + btoa(`${user.email}:${user.rawPass}`)
+    }
+    const options = {
+      method: method.toUpperCase(),
+      headers,
+    }
+    if (body) {
+      options["body"] = JSON.stringify(body)
+    }
+    return fetch(url, options)
+  }
+
+  /**
    * Get all a user's bills, set bills state
    * @param {Object} user
    * @return {Promise} bills
    */
   async function getBills(user) {
-    if (user) {
-      const response = await fetch("http://localhost:5000/bill", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
-        },
-      })
-
-      if (response.status !== 200) {
-        return null
-      } else {
-        response.json().then((bills) => setBills(bills))
-      }
+    const response = await HTTPRequest(
+      "http://localhost:5000/bill",
+      "get",
+      user
+    )
+    if (response.status !== 200) {
+      return null
+    } else {
+      response.json().then((bills) => setBills(bills))
     }
   }
 
@@ -70,46 +91,40 @@ export default function App() {
    * @param {Object} user
    */
   async function getBudgets(user) {
-    if (user) {
-      const response = await fetch("http://localhost:5000/budget/all", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
-        },
-      })
-
-      if (response.status !== 200) {
-        return null
-      } else {
-        response.json().then((budgets) => {
-          budgets.forEach((budget) => {
-            budget.Categories.forEach((category) => {
-              category.key = category.id
-              category.text = category.title
-              category.value = category.id
-            })
+    const response = await HTTPRequest(
+      "http://localhost:5000/budget/all",
+      "get",
+      user
+    )
+    if (response.status !== 200) {
+      return null
+    } else {
+      response.json().then((budgets) => {
+        budgets.forEach((budget) => {
+          budget.Categories.forEach((category) => {
+            category.key = category.id
+            category.text = category.title
+            category.value = category.id
           })
-          setBudgets(budgets)
-          Cookies.set("budgets", JSON.stringify(budgets))
         })
-      }
+        setBudgets(budgets)
+        Cookies.set("budgets", JSON.stringify(budgets))
+      })
     }
   }
 
   /**
    * Send POST request with Basic Auth header to add a new budget
    * @param {Object} payload
+   * @return fetch request
    */
   function addBudget(payload) {
-    return fetch("http://localhost:5000/budget/new", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
-      },
-      body: JSON.stringify(payload),
-    })
+    return HTTPRequest(
+      "http://localhost:5000/budget/new",
+      "post",
+      user,
+      payload
+    )
   }
 
   /**
@@ -117,16 +132,11 @@ export default function App() {
    * @param {Number} id - budget PK
    */
   function deleteBudget(id) {
-    fetch(`http://localhost:5000/budget/${id}/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
-      },
-    })
+    HTTPRequest(`http://localhost:5000/budget/${id}/delete`, "delete", user)
       .then(() => {
         const newBudgetsState = budgets.filter((budget) => budget.id !== id)
         setBudgets(newBudgetsState)
+        Cookies.set("budgets", JSON.stringify(newBudgetsState))
       })
       .catch((error) => console.log(error))
   }
@@ -137,13 +147,7 @@ export default function App() {
    * @param {Number} id - user PK
    */
   function deleteUser(id) {
-    fetch(`http://localhost:5000/user/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
-      },
-    })
+    HTTPRequest(`http://localhost:5000/user/${id}`, "delete", user)
       .then(() => {
         setUser(null)
         setBudgets(null)
@@ -160,14 +164,10 @@ export default function App() {
    * @return {Object} authenticated user
    */
   async function login(email, password, checkbox, setError) {
-    const response = await fetch("http://localhost:5000/user", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization: "Basic " + btoa(`${email}:${password}`),
-      },
+    const response = await HTTPRequest("http://localhost:5000/user", "get", {
+      email,
+      rawPass: password,
     })
-
     if (response.status !== 200) {
       response.json().then((data) => setError(data))
     } else {
@@ -180,6 +180,15 @@ export default function App() {
     }
   }
 
+  /**
+   * Send a GET request with Basic Auth header to get all expenditures
+   * @param {Number} year
+   * @param {Number} month
+   * @param {Number} day
+   * @param {Number} budgetId
+   * @param {Number} id
+   * @return {Promise} expenditures
+   */
   async function getExpenditures(
     year,
     month = null,
@@ -192,14 +201,7 @@ export default function App() {
     }?year=${year}${month ? "&month=" + month : ""}${
       day ? "&day=" + day : ""
     }&userId=${user.id}${budgetId ? "&budgetId=" + budgetId : ""}`
-    console.log(path)
-    const response = await fetch(path, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
-      },
-    })
+    const response = await HTTPRequest(path, "get", user)
     if (response.status !== 200) {
       return null
     }
@@ -210,16 +212,15 @@ export default function App() {
   /**
    * Send a POST request with Basic Auth header to add one or more expenditure
    * @param {Array} expenditures
+   * @return fetch request
    */
   function addExpenditure(expenditures) {
-    return fetch("http://localhost:5000/expenditures/new", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
-      },
-      body: JSON.stringify(expenditures),
-    })
+    return HTTPRequest(
+      "http://localhost:5000/expenditures/new",
+      "post",
+      user,
+      expenditures
+    )
   }
 
   return (
