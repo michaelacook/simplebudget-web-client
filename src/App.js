@@ -25,9 +25,9 @@ export default function App() {
 
   useEffect(() => {
     setUser(JSON.parse(Cookies.get("user") || null))
-    const budgets = JSON.parse(Cookies.get("budgets"))
+    const budgets = Cookies.get("budgets")
     if (budgets) {
-      setBudgets(budgets)
+      setBudgets(JSON.parse(budgets))
     } else {
       getBudgets(user)
     }
@@ -95,6 +95,21 @@ export default function App() {
         })
       }
     }
+  }
+
+  /**
+   * Send POST request with Basic Auth header to add a new budget
+   * @param {Object} payload
+   */
+  function addBudget(payload) {
+    return fetch("http://localhost:5000/budget/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
+      },
+      body: JSON.stringify(payload),
+    })
   }
 
   /**
@@ -218,7 +233,12 @@ export default function App() {
           <EditBudget />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/new" exact>
-          <NewBudget user={user} budgets={budgets} setBudgets={setBudgets} />
+          <NewBudget
+            user={user}
+            budgets={budgets}
+            setBudgets={setBudgets}
+            addBudget={addBudget}
+          />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage" exact>
           <ManageBudgets budgets={budgets} deleteBudget={deleteBudget} />

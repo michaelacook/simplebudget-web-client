@@ -10,16 +10,17 @@ import {
   Message,
   Segment,
 } from "semantic-ui-react"
+import Cookies from "js-cookie"
 import Breadcrumb from "./Breadcrumb"
 import ProTip from "./ProTip"
 
-export default function NewBudget({ user, budgets, setBudgets }) {
+export default function NewBudget({ user, budgets, setBudgets, addBudget }) {
   const [categories, setCategories] = useState([])
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [categoryName, setCategoryName] = useState("")
   const [categoryValue, setCategoryValue] = useState("")
-  const [loading, setLoading] = useState(false) // loading set to true when sending a request and waiting for a response
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState()
   const history = useHistory()
 
@@ -36,35 +37,29 @@ export default function NewBudget({ user, budgets, setBudgets }) {
     }
   }
 
-  async function doCreateBudget() {
+  function doAddBudget() {
     if (title && description && categories.length > 0) {
       setLoading(true)
-      const response = await fetch("http://localhost:5000/budget/new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const payload = {
+        budget: {
+          title,
+          description,
+          total: categories.reduce(
+            (acc, curr) => acc + Number(Object.values(curr)[0]),
+            0
+          ),
+          userId: user.id,
         },
-        body: JSON.stringify({
-          budget: {
-            title,
-            description,
-            total: categories.reduce(
-              (acc, curr) => acc + Number(Object.values(curr)[0]),
-              0
-            ),
-            userId: user.id,
-          },
-          categories,
-        }),
-      })
-      if (response.status !== 201) {
-        setError("Something went wrong. Try again later.")
-        return setLoading(false)
+        categories,
       }
-      await response.json().then((budget) => {
-        setBudgets([...budgets, budget])
-        history.push(`/budgets/${budget.id}`)
-      })
+      addBudget(payload)
+        .then((response) => response.json())
+        .then((data) => {
+          setBudgets([...budgets, data])
+          Cookies.set("budgets", JSON.stringify(data))
+          setLoading(false)
+          history.push(`/budgets/${data.id}`)
+        })
     }
   }
 
@@ -145,7 +140,7 @@ export default function NewBudget({ user, budgets, setBudgets }) {
             ))}
           </div>
           <Divider hidden />
-          <Button loading={loading} onClick={() => doCreateBudget()} size="big">
+          <Button loading={loading} onClick={() => doAddBudget()} size="big">
             Done
           </Button>
         </Form>
