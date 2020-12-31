@@ -36,7 +36,7 @@ export default function App() {
   /**
    * Log out of the current session
    */
-  const logout = () => {
+  function logout() {
     setUser(null)
     setBudgets(null)
     Cookies.remove("user")
