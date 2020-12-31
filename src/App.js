@@ -21,10 +21,16 @@ import PrivateRoute from "./components/PrivateRoute"
 export default function App() {
   const [user, setUser] = useState(null)
   const [budgets, setBudgets] = useState(null)
+  const [bills, setBills] = useState(null)
 
   useEffect(() => {
     setUser(JSON.parse(Cookies.get("user") || null))
-    getBudgets(user)
+    const budgets = JSON.parse(Cookies.get("budgets"))
+    if (budgets) {
+      setBudgets(budgets)
+    } else {
+      getBudgets(user)
+    }
   }, [0])
 
   /**
@@ -34,6 +40,29 @@ export default function App() {
     setUser(null)
     setBudgets(null)
     Cookies.remove("user")
+  }
+
+  /**
+   * Get all a user's bills, set bills state
+   * @param {Object} user
+   * @return {Promise} bills
+   */
+  async function getBills(user) {
+    if (user) {
+      const response = await fetch("http://localhost:5000/bill", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Basic " + btoa(`${user.email}:${user.rawPass}`),
+        },
+      })
+
+      if (response.status !== 200) {
+        return null
+      } else {
+        response.json().then((bills) => setBills(bills))
+      }
+    }
   }
 
   /**
@@ -62,6 +91,7 @@ export default function App() {
             })
           })
           setBudgets(budgets)
+          Cookies.set("budgets", JSON.stringify(budgets))
         })
       }
     }
