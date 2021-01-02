@@ -26,10 +26,16 @@ export default function App() {
   useEffect(() => {
     setUser(JSON.parse(Cookies.get("user") || null))
     const budgets = Cookies.get("budgets")
+    const bills = Cookies.get("bills")
     if (budgets) {
       setBudgets(JSON.parse(budgets))
     } else {
       getBudgets(user)
+    }
+    if (bills) {
+      setBills(JSON.parse(bills))
+    } else {
+      getBills(user)
     }
   }, [0])
 
@@ -39,6 +45,7 @@ export default function App() {
   function logout() {
     setUser(null)
     setBudgets(null)
+    setBills(null)
     Cookies.remove("user")
     Cookies.remove("budgets")
     Cookies.remove("bills")
@@ -84,7 +91,10 @@ export default function App() {
     if (response.status !== 200) {
       return null
     } else {
-      response.json().then((bills) => setBills(bills))
+      response.json().then((bills) => {
+        setBills(bills)
+        Cookies.set("bills", JSON.stringify(bills))
+      })
     }
   }
 
@@ -277,7 +287,7 @@ export default function App() {
           <ViewStatistics />
         </PrivateRoute>
         <Route path="/login" exact>
-          <Login login={login} getBudgets={getBudgets} />
+          <Login login={login} getBudgets={getBudgets} getBills={getBills} />
         </Route>
         <Route path="/signup">
           <Signup />

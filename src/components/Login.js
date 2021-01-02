@@ -10,7 +10,7 @@ import {
   Message,
 } from "semantic-ui-react"
 
-export default function Login({ login, getBudgets }) {
+export default function Login({ login, getBudgets, getBills }) {
   const [queryParams, setQueryParams] = useState(
     new URLSearchParams(useLocation().search)
   )
@@ -23,6 +23,7 @@ export default function Login({ login, getBudgets }) {
   async function handleLogin() {
     const user = await login(username, password, checkbox, setError)
     await getBudgets(user)
+    await getBills(user)
     history.push("/")
   }
 
