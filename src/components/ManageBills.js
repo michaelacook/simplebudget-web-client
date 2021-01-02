@@ -17,7 +17,7 @@ export default function ManageBills({ bills, deleteBill }) {
       <Segment raised className="mt-1" style={{ padding: "35px" }}>
         <Header as="h1">Manage Bills</Header>
         <List divided relaxed classname="mt-2">
-          {bills ? (
+          {bills.length ? (
             bills.map((bill) => (
               <List.Item style={{ marginBottom: "12px" }}>
                 <List.Content>
