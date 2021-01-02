@@ -302,7 +302,12 @@ export default function App() {
           <ManageBills />
         </PrivateRoute>
         <PrivateRoute user={user} path="/bills/new">
-          <AddBill user={user} addBill={addBill} />
+          <AddBill
+            user={user}
+            bills={bills}
+            setBills={setBills}
+            addBill={addBill}
+          />
         </PrivateRoute>
       </Switch>
     </Router>

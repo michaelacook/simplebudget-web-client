@@ -7,9 +7,10 @@ import {
   Icon,
   Segment,
 } from "semantic-ui-react"
+import Cookies from "js-cookie"
 import Breadcrumb from "./Breadcrumb"
 
-export default function AddBill({ user, addBill }) {
+export default function AddBill({ user, bills, addBill, setBills }) {
   const [title, setTitle] = useState("")
   const [amount, setAmount] = useState("")
   const [due, setDue] = useState("")
@@ -26,7 +27,12 @@ export default function AddBill({ user, addBill }) {
         due,
         userId: user.id,
       })
-        .then(() => {
+        .then((response) => response.json())
+        .then((bill) => {
+          setBills([...bills, bill])
+          Cookies.set("bills", JSON.stringify(bills))
+        })
+        .finally(() => {
           setLoading(false)
           setButtonText("Saved!")
           setTitle("")
