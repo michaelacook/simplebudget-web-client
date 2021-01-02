@@ -109,6 +109,18 @@ export default function App() {
   }
 
   /**
+   * Send DELETE request with Basic Auth header to delete a bill, then update state
+   * @param {Number} id - bill PK
+   */
+  function deleteBill(id) {
+    HTTPRequest(`http://localhost:5000/bill/${id}`, "delete", user).then(() => {
+      const newBillsState = bills.filter((bill) => bill.id !== id)
+      setBills(newBillsState)
+      Cookies.set("bills", JSON.stringify(newBillsState))
+    })
+  }
+
+  /**
    * Send a request with Basic Auth header, get user's budgets and add to state
    * @param {Object} user
    */
@@ -299,7 +311,7 @@ export default function App() {
           <Settings />
         </PrivateRoute>
         <PrivateRoute user={user} path="/bills" exact>
-          <ManageBills />
+          <ManageBills bills={bills} deleteBill={deleteBill} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/bills/new">
           <AddBill
