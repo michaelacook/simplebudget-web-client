@@ -89,6 +89,16 @@ export default function App() {
   }
 
   /**
+   * Send POST request with Basic Auth header to add a bill
+   * @param {Object} user
+   * @param {Object} payload
+   * @return {Func} fetch request
+   */
+  function addBill(user, payload) {
+    return HTTPRequest("http://localhost:5000/bill", "post", user, payload)
+  }
+
+  /**
    * Send a request with Basic Auth header, get user's budgets and add to state
    * @param {Object} user
    */
@@ -282,7 +292,7 @@ export default function App() {
           <ManageBills />
         </PrivateRoute>
         <PrivateRoute user={user} path="/bills/new">
-          <AddBill user={user} />
+          <AddBill user={user} addBill={addBill} />
         </PrivateRoute>
       </Switch>
     </Router>
