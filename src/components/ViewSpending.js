@@ -44,11 +44,13 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
   const currentYear = new Date().getFullYear()
   const yearSelectOptions = Array.from(
     new Array(currentYear - accountCreated + 1)
-  ).map((_, i) => ({
-    key: i,
-    value: accountCreated + i,
-    text: accountCreated + i,
-  }))
+  )
+    .map((_, i) => ({
+      key: i,
+      value: accountCreated + i,
+      text: accountCreated + i,
+    }))
+    .reverse()
   yearSelectOptions.unshift({
     key: "placeholder",
     text: "Select One",
