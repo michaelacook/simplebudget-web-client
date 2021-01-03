@@ -35,7 +35,7 @@ export default function ManageBills({ bills, deleteBill }) {
                     />
                   </List.Content>
                   <List.Header>{bill.title}</List.Header>$
-                  {bill.amount.toFixed(2)}
+                  {Number(bill.amount).toFixed(2)}
                   <div>Due monthly on the {bill.due}</div>
                 </List.Content>
               </List.Item>

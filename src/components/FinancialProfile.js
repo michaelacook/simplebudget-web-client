@@ -28,7 +28,8 @@ export default ({ user, bills }) => {
                   <Table.Row>
                     <Table.Cell className="bold">{bill.title}</Table.Cell>
                     <Table.Cell>
-                      ${bill.amount.toFixed(2)} due monthly on {bill.due}
+                      ${Number(bill.amount).toFixed(2)} due monthly on{" "}
+                      {bill.due}
                     </Table.Cell>
                   </Table.Row>
                 ))}
