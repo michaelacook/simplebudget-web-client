@@ -1,7 +1,7 @@
 import React, { Fragment } from "react"
 import { Container, Divider, Header, Table, List } from "semantic-ui-react"
 
-export default ({ user, bills }) => {
+export default function FinancialProfile({ user, bills }) {
   return (
     <Fragment>
       <Container>
