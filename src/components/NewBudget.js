@@ -55,6 +55,9 @@ export default function NewBudget({ user, budgets, setBudgets, addBudget }) {
       addBudget(payload)
         .then((response) => response.json())
         .then((data) => {
+          data.Categories.forEach(
+            (category) => (category.text = category.title)
+          )
           setBudgets([...budgets, data])
           Cookies.set("budgets", JSON.stringify(data))
           setLoading(false)
