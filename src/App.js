@@ -16,6 +16,7 @@ import ViewSpending from "./components/ViewSpending"
 import ViewStatistics from "./components/ViewStatistics"
 import ManageBills from "./components/ManageBills"
 import AddBill from "./components/AddBill"
+import Editbill from "./components/EditBill"
 import PrivateRoute from "./components/PrivateRoute"
 
 export default function App() {
@@ -99,6 +100,15 @@ export default function App() {
   }
 
   /**
+   * Send GET request with Basic Auth header to get a single bill
+   * @param {Number} id - bill PK
+   * @param {Object} user
+   */
+  function getBill(id, user) {
+    return HTTPRequest(`http://localhost:5000/bill/${id}`, "get", user)
+  }
+
+  /**
    * Send POST request with Basic Auth header to add a bill
    * @param {Object} user
    * @param {Object} payload
@@ -106,6 +116,16 @@ export default function App() {
    */
   function addBill(user, payload) {
     return HTTPRequest("http://localhost:5000/bill", "post", user, payload)
+  }
+
+  /**
+   * Send PUT request with Basic Auth header to update a bill
+   * @param {Object} user
+   * @param {Number} id - bill PK
+   * @param {Object} payload - new data
+   */
+  function updateBill(user, id, payload) {
+    return HTTPRequest(`http://localhost:5000/bill/${id}`, "put", user, payload)
   }
 
   /**
@@ -319,6 +339,15 @@ export default function App() {
             bills={bills}
             setBills={setBills}
             addBill={addBill}
+          />
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/bills/:id">
+          <Editbill
+            user={user}
+            bills={bills}
+            getBill={getBill}
+            setBills={setBills}
+            updateBill={updateBill}
           />
         </PrivateRoute>
       </Switch>

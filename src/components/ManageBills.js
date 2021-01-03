@@ -24,7 +24,7 @@ export default function ManageBills({ bills, deleteBill }) {
                   <List.Content floated="right">
                     <Button
                       as={Link}
-                      to={`/bills/manage/${bill.id}/`}
+                      to={`/bills/${bill.id}/`}
                       compact
                       icon="edit"
                       color="green"
