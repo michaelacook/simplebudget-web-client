@@ -9,6 +9,7 @@ import Dashboard from "./components/Dashboard"
 import NewBudget from "./components/NewBudget"
 import Settings from "./components/Settings"
 import AddExpense from "./components/AddExpense"
+import EditExpenditure from "./components/EditExpenditure"
 import ManageBudgets from "./components/ManageBudgets"
 import EditBudget from "./components/EditBudget"
 import ViewBudget from "./components/ViewBudget"
@@ -264,6 +265,14 @@ export default function App() {
   }
 
   /**
+   * Get a single expenditure
+   * @param {Number} id - expenditure PK
+   */
+  function getExpenditure(id) {
+    return HTTPRequest(`http://localhost:5000/expenditures/${id}`, "get", user)
+  }
+
+  /**
    * Send a POST request with Basic Auth header to add one or more expenditure
    * @param {Array} expenditures
    * @return fetch request
@@ -306,6 +315,13 @@ export default function App() {
             user={user}
             budgets={budgets}
             getExpenditures={getExpenditures}
+          />
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/expenditures/:id">
+          <EditExpenditure
+            user={user}
+            budgets={budgets}
+            getExpenditure={getExpenditure}
           />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>
