@@ -214,10 +214,7 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
                   <Table.Cell>{expenditure.Budget.title}</Table.Cell>
                   <Table.Cell>{expenditure.Category.title}</Table.Cell>
                   <Table.Cell selectable>
-                    <Link
-                      to={`/expenditures/${expenditure.id}`}
-                      target="_blank"
-                    >
+                    <Link to={`/expenditures/${expenditure.id}`}>
                       ${expenditure.amount.toFixed(2)}
                     </Link>
                   </Table.Cell>
