@@ -286,6 +286,20 @@ export default function App() {
     )
   }
 
+  /**
+   * Send PUT request with Basic Auth header to update an expenditure
+   * @param {Number} id - expenditure PK
+   * @param {*} payload
+   */
+  function updateExpenditure(id, payload) {
+    return HTTPRequest(
+      `http://localhost:5000/expenditures/${id}`,
+      "put",
+      user,
+      payload
+    )
+  }
+
   return (
     <Router>
       <Navbar user={user} logout={logout} />
@@ -322,6 +336,7 @@ export default function App() {
             user={user}
             budgets={budgets}
             getExpenditure={getExpenditure}
+            updateExpenditure={updateExpenditure}
           />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>

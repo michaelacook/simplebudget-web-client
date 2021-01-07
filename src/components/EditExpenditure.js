@@ -11,7 +11,12 @@ import {
 import { useParams } from "react-router-dom"
 import Breadcrumb from "./Breadcrumb"
 
-export default function EditExpenditure({ user, budgets, getExpenditure }) {
+export default function EditExpenditure({
+  user,
+  budgets,
+  getExpenditure,
+  updateExpenditure,
+}) {
   const { id } = useParams()
   const [budget, setBudget] = useState("")
   const [category, setCategory] = useState("")
@@ -29,7 +34,7 @@ export default function EditExpenditure({ user, budgets, getExpenditure }) {
       .then((response) => response.json())
       .then((expenditure) => {
         setBudget(expenditure.budgetId)
-        setCategory(expenditure.Category)
+        setCategory(expenditure.Category.id)
         setCategories(
           budgets.find((bug) => bug.id === expenditure.budgetId).Categories
         )
@@ -39,6 +44,44 @@ export default function EditExpenditure({ user, budgets, getExpenditure }) {
         setday(expenditure.day)
       })
   }, [])
+
+  /**
+   * Parse and set date state
+   * @param {Object} e - synthetic browser event
+   */
+  function handleChangeDate(e) {
+    const [year, month, day] = e.target.value.split("-")
+    setYear(year)
+    setday(day)
+    setMonth(month)
+  }
+
+  /**
+   * Assemble a payload and send PUT request
+   */
+  function handlSave() {
+    setLoading(true)
+    const payload = {}
+    if (amount) {
+      payload.amount = amount
+    }
+    if (year) {
+      payload.year = year
+      payload.month = month
+      payload.day = day
+    }
+    if (Object.keys(payload).length) {
+      payload.userId = user.id
+      payload.budgetId = budget
+      payload.categoryId = category
+      updateExpenditure(id, payload)
+        .then(() => {
+          setLoading(false)
+          setButtonText("Saved!")
+        })
+        .catch((error) => setError(error))
+    }
+  }
 
   function handleChangeBudget(budgetId) {
     setBudget(budgetId)
@@ -78,7 +121,7 @@ export default function EditExpenditure({ user, budgets, getExpenditure }) {
               fluid
               selection
               options={
-                categories.length
+                categories
                   ? categories.map((cat) => ({
                       key: cat.id,
                       value: cat.id,
@@ -87,13 +130,8 @@ export default function EditExpenditure({ user, budgets, getExpenditure }) {
                   : null
               }
               label="Category"
-              value={
-                categories.length
-                  ? categories.find((cat) => cat.title === category.title).id ||
-                    null
-                  : null
-              }
-              onChange={(e) => setCategory(e.target.value)}
+              value={category}
+              onChange={(e, data) => setCategory(data.value)}
             />
           </Form.Field>
           <Form.Field width="8">
@@ -101,7 +139,7 @@ export default function EditExpenditure({ user, budgets, getExpenditure }) {
               fluid
               type="number"
               label="Amount"
-              value={Number(amount).toFixed(2)}
+              value={Number(amount)}
               onChange={(e) => setAmount(e.target.value)}
             />
           </Form.Field>
@@ -110,11 +148,10 @@ export default function EditExpenditure({ user, budgets, getExpenditure }) {
               fluid
               type="date"
               label="Date"
-              //   value={}
-              //   onChange={(e) => setDate}
+              onChange={handleChangeDate}
             />
           </Form.Field>
-          <Button loading={loading}>
+          <Button loading={loading} onClick={handlSave}>
             <Icon name="save" />
             {buttonText}
           </Button>
