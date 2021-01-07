@@ -345,20 +345,20 @@ export default function App() {
             getExpenditures={getExpenditures}
           />
         </PrivateRoute>
-        <PrivateRoute user={user} path="/expenditures/:id">
+        <PrivateRoute user={user} path="/expenditures/new" exact>
+          <AddExpense
+            user={user}
+            addExpenditure={addExpenditure}
+            budgets={budgets}
+          />
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/expenditures/:id" exact>
           <EditExpenditure
             user={user}
             budgets={budgets}
             getExpenditure={getExpenditure}
             updateExpenditure={updateExpenditure}
             deleteExpenditure={deleteExpenditure}
-          />
-        </PrivateRoute>
-        <PrivateRoute user={user} path="/expenditures/new" exact>
-          <AddExpense
-            user={user}
-            addExpenditure={addExpenditure}
-            budgets={budgets}
           />
         </PrivateRoute>
         <PrivateRoute user={user} path="/statistics" exact>
