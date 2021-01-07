@@ -275,7 +275,7 @@ export default function App() {
   /**
    * Send a POST request with Basic Auth header to add one or more expenditure
    * @param {Array} expenditures
-   * @return fetch request
+   * @return {Promise} fetch request
    */
   function addExpenditure(expenditures) {
     return HTTPRequest(
@@ -289,7 +289,8 @@ export default function App() {
   /**
    * Send PUT request with Basic Auth header to update an expenditure
    * @param {Number} id - expenditure PK
-   * @param {*} payload
+   * @param {Object} payload
+   * @return {Promise} fetch requets
    */
   function updateExpenditure(id, payload) {
     return HTTPRequest(
@@ -297,6 +298,19 @@ export default function App() {
       "put",
       user,
       payload
+    )
+  }
+
+  /**
+   * Send DELETE request with Basic Auth header to delete an expenditure
+   * @param {Number} id - expenditure PK
+   * @return {Promise} fetch request
+   */
+  function deleteExpenditure(id) {
+    return HTTPRequest(
+      `http://localhost:5000/expenditures/${id}`,
+      "delete",
+      user
     )
   }
 
@@ -337,6 +351,7 @@ export default function App() {
             budgets={budgets}
             getExpenditure={getExpenditure}
             updateExpenditure={updateExpenditure}
+            deleteExpenditure={deleteExpenditure}
           />
         </PrivateRoute>
         <PrivateRoute user={user} path="/expenditures/new" exact>

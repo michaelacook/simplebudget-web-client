@@ -8,16 +8,19 @@ import {
   Icon,
   Segment,
 } from "semantic-ui-react"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import Breadcrumb from "./Breadcrumb"
+import ConfirmDeleteExpenseModal from "./modals/ConfirmDeleteExpenseModal"
 
 export default function EditExpenditure({
   user,
   budgets,
   getExpenditure,
   updateExpenditure,
+  deleteExpenditure,
 }) {
   const { id } = useParams()
+  const history = useHistory()
   const [budget, setBudget] = useState("")
   const [category, setCategory] = useState("")
   const [amount, setAmount] = useState("")
@@ -81,6 +84,10 @@ export default function EditExpenditure({
         })
         .catch((error) => setError(error))
     }
+  }
+
+  function handleDelete() {
+    deleteExpenditure(id).then(() => history.push("/expenditures/view"))
   }
 
   function handleChangeBudget(budgetId) {
@@ -155,6 +162,7 @@ export default function EditExpenditure({
             <Icon name="save" />
             {buttonText}
           </Button>
+          <ConfirmDeleteExpenseModal handleDelete={handleDelete} />
         </Form>
       </Segment>
     </Container>
