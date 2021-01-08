@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import {
   Button,
@@ -94,7 +94,7 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
     let result = []
     for (let value of array) {
       let lastArray = result[result.length - 1]
-      if (!lastArray || lastArray.length == size) {
+      if (!lastArray || lastArray.length === size) {
         result.push([value])
       } else {
         lastArray.push(value)
@@ -208,7 +208,7 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
             </Table.Header>
             <Table.Body>
               {expenditures[currentPage - 1].map((expenditure) => (
-                <Table.Row>
+                <Table.Row key={expenditure.id}>
                   <Table.Cell>{expenditure.Budget.title}</Table.Cell>
                   <Table.Cell>{expenditure.Category.title}</Table.Cell>
                   <Popup
