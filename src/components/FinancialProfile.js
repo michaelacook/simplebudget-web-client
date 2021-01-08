@@ -25,7 +25,7 @@ export default function FinancialProfile({ user, bills }) {
                   Bills
                 </Header>
                 {bills.map((bill) => (
-                  <Table.Row>
+                  <Table.Row key={bill.id}>
                     <Table.Cell className="bold">{bill.title}</Table.Cell>
                     <Table.Cell>
                       ${Number(bill.amount).toFixed(2)} due monthly on{" "}
