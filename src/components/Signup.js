@@ -18,7 +18,6 @@ export default function SignUp() {
     password: false,
     confirmPassword: false,
     netMonthlyIncome: false,
-    netMonthlyIncome: false,
   }
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
@@ -30,9 +29,7 @@ export default function SignUp() {
   const [error, setError] = useState("")
   const [validationErrors, setValidationErrors] = useState(params)
   const [loading, setLoading] = useState(false)
-  const [queryParams, setQueryParams] = useState(
-    new URLSearchParams(useLocation().search)
-  )
+  const queryParams = new URLSearchParams(useLocation().search)
   const history = useHistory()
 
   async function doSignUp() {
@@ -190,7 +187,7 @@ export default function SignUp() {
             </Form.Group>
 
             <Form.Field>
-              <Button primary loading={loading} onClick={doSignUp}>
+              <Button primary={true} loading={loading} onClick={doSignUp}>
                 Signup
               </Button>
             </Form.Field>
