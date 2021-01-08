@@ -1,8 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 import { useHistory } from "react-router-dom"
 import { Button, Menu, Modal } from "semantic-ui-react"
 
-export default ({ user, logout }) => {
+export default function ConfirmLogoutModal({ user, logout }) {
   const [open, setOpen] = React.useState(false)
   const history = useHistory()
 
