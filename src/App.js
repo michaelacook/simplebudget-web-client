@@ -169,6 +169,14 @@ export default function App() {
   }
 
   /**
+   * Send GET request with Basic Auth header to get a single budget
+   * @param {Number} id
+   */
+  function getBudget(id) {
+    return HTTPRequest(`http://localhost:5000/budget/${id}`, "get", user)
+  }
+
+  /**
    * Send POST request with Basic Auth header to add a new budget
    * @param {Object} payload
    * @return fetch request
@@ -177,6 +185,45 @@ export default function App() {
     return HTTPRequest(
       "http://localhost:5000/budget/new",
       "post",
+      user,
+      payload
+    )
+  }
+
+  /**
+   * Send POST request with Basic Auth header to add a category for a budget
+   * @param {Object} payload - data to add
+   */
+  function addCategory(payload) {
+    return HTTPRequest(
+      "http://localhost:5000/budget/category/new",
+      "post",
+      user,
+      payload
+    )
+  }
+
+  /**
+   * Send DELETE request with Basic Auth header to delete category
+   * @param {Number} id - category id
+   */
+  function deleteCategory(id) {
+    return HTTPRequest(
+      `http://localhost:5000/budget/category/${id}/delete`,
+      "delete",
+      user
+    )
+  }
+
+  /**
+   * Send PUT request with Basic Auth header
+   * @param {Number} id budget id
+   * @param {Object} payload - data to add
+   */
+  function updateBudget(id, payload) {
+    return HTTPRequest(
+      `http://localhost:5000/budget/${id}/update`,
+      "put",
       user,
       payload
     )
@@ -322,7 +369,15 @@ export default function App() {
           <Dashboard user={user} logout={logout} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/manage/:id" exact>
-          <EditBudget />
+          <EditBudget
+            user={user}
+            budgets={budgets}
+            setBudgets={setBudgets}
+            getBudget={getBudget}
+            addNewCategory={addCategory}
+            updateBudget={updateBudget}
+            deleteCategory={deleteCategory}
+          />
         </PrivateRoute>
         <PrivateRoute user={user} path="/budgets/new" exact>
           <NewBudget

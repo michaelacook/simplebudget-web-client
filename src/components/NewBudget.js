@@ -52,6 +52,7 @@ export default function NewBudget({ user, budgets, setBudgets, addBudget }) {
         },
         categories,
       }
+      console.log(payload)
       addBudget(payload)
         .then((response) => response.json())
         .then((data) => {
