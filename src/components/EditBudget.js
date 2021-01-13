@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import {
   Button,
   Container,
@@ -11,6 +11,7 @@ import {
   Segment,
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
+import Cookies from "js-cookie"
 
 export default function EditBudget({
   user,
@@ -33,10 +34,10 @@ export default function EditBudget({
   const [newCategoryAmount, setNewCategoryAmount] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const history = useHistory()
   const { id } = useParams()
 
   useEffect(() => {
-    setLoading(true)
     getBudget(id)
       .then((response) => response.json())
       .then((data) => {
@@ -48,7 +49,6 @@ export default function EditBudget({
         setEditedCategories(data.Categories)
       })
       .catch((error) => setError(error))
-    setLoading(false)
   }, [])
 
   /**
@@ -57,6 +57,7 @@ export default function EditBudget({
    * Update budget properties
    */
   function handleSave() {
+    setLoading(true)
     if (newCategories.length) {
       for (let item of newCategories) {
         addNewCategory(item)
@@ -69,11 +70,15 @@ export default function EditBudget({
         await deleteCategory(id)
       })
     }
-    const budgetTotal =
-      newCategories.reduce(
-        (acc, curr) => acc + Number(Object.values(curr)[1]),
-        0
-      ) + Number(total)
+    const newCategoriesTotal = newCategories.reduce(
+      (acc, curr) => acc + Number(curr.amount),
+      0
+    )
+    const editedCategoriesTotal = editedCategories.reduce(
+      (acc, curr) => acc + Number(curr.amount),
+      0
+    )
+    const budgetTotal = newCategoriesTotal + editedCategoriesTotal
     const payload = {
       budget: {
         title,
@@ -85,7 +90,23 @@ export default function EditBudget({
     }
     updateBudget(budget.id, payload)
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        data.Categories.forEach((category) => {
+          category.text = category.title
+          category.value = category.id
+        })
+        const oldState = [...budgets]
+        oldState.splice(
+          oldState.indexOf(oldState.find((item) => item.id === data.id)),
+          1,
+          data
+        )
+        setBudgets(oldState)
+        Cookies.set("budgets", JSON.stringify(budgets))
+        setLoading(false)
+        history.push(`/budgets/${data.id}`)
+      })
+    setLoading(false)
   }
 
   function changeCategoryTitle(id, title) {
@@ -133,6 +154,7 @@ export default function EditBudget({
     const itemIndex = categories.indexOf(category)
     newCategoriesState.splice(itemIndex, 1)
     setCategories(newCategoriesState)
+    setEditedCategories(newCategoriesState)
     const newDeleteCategoryState = [...categoriesToDelete]
     newDeleteCategoryState.push(category.id)
     setCategoriesToDelete(newDeleteCategoryState)
