@@ -52,6 +52,22 @@ export default function EditBudget({
   }, [])
 
   /**
+   * Reset state to initial
+   */
+  function reset() {
+    setTitle(budget.title)
+    setDescription(budget.description)
+    setTotal(budget.total)
+    setCategories(budget.Categories)
+    setEditedCategories(budget.Categories)
+    setNewCategories([])
+    setCategoriesToDelete([])
+    setNewCategoryTitle("")
+    setNewCategoryAmount("")
+    setError("")
+  }
+
+  /**
    * Add any new categories
    * Delete any categories slated for delete
    * Update budget properties
@@ -246,6 +262,10 @@ export default function EditBudget({
                 <Button onClick={handleSave} className="mt-1" loading={loading}>
                   <Icon name="save" />
                   Save
+                </Button>
+                <Button onClick={reset} className="mt-1">
+                  <Icon name="repeat" />
+                  Reset
                 </Button>
                 <Button icon="trash"></Button>
               </React.Fragment>
