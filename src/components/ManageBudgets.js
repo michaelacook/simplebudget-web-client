@@ -11,7 +11,6 @@ export default ({ budgets, deleteBudget }) => {
       <Breadcrumb
         sections={[
           { name: "Dashboard", path: "/" },
-          { name: "Budgets", path: "/budgets" },
           { name: "Manage", path: "/budgets/manage" },
         ]}
       />
