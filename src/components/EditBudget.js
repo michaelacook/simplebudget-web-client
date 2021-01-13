@@ -172,11 +172,7 @@ export default function EditBudget({
         <Grid.Column>
           <Segment raised style={{ padding: "35px", marginBottom: "100px" }}>
             <Header as="h2">Edit Budget</Header>
-            {error ? (
-              <Message color="red" className="mt-1">
-                {error}
-              </Message>
-            ) : null}
+            {error ? <Message className="mt-1">{error}</Message> : null}
             {budget ? (
               <React.Fragment>
                 <Form className="mt-2">
@@ -208,7 +204,6 @@ export default function EditBudget({
                           />
                           <Button
                             onClick={() => removeCategory(category.id)}
-                            color="red"
                             icon="trash"
                           ></Button>
                         </Form.Group>
@@ -244,7 +239,7 @@ export default function EditBudget({
                       }
                     >
                       {item.title} ${item.amount}
-                      <Icon name="minus" color="red" />
+                      <Icon name="minus" />
                     </Button>
                   ))}
                 </div>
@@ -252,7 +247,7 @@ export default function EditBudget({
                   <Icon name="save" />
                   Save
                 </Button>
-                <Button color="red" icon="trash"></Button>
+                <Button icon="trash"></Button>
               </React.Fragment>
             ) : null}
           </Segment>
