@@ -11,6 +11,7 @@ import {
   Segment,
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
+import ConfirmDeleteCategory from "./modals/ConfirmDeleteCategory"
 import Cookies from "js-cookie"
 
 export default function EditBudget({
@@ -188,7 +189,11 @@ export default function EditBudget({
         <Grid.Column>
           <Segment raised style={{ padding: "35px", marginBottom: "100px" }}>
             <Header as="h2">Edit Budget</Header>
-            {error ? <Message className="mt-1">{error}</Message> : null}
+            {error ? (
+              <Message color="red" className="mt-1">
+                {error}
+              </Message>
+            ) : null}
             {budget ? (
               <React.Fragment>
                 <Form className="mt-2">
@@ -218,10 +223,12 @@ export default function EditBudget({
                               changeCategoryAmount(category.id, e.target.value)
                             }
                           />
-                          <Button
-                            onClick={() => removeCategory(category.id)}
+                          <ConfirmDeleteCategory
+                            onConfirm={() => removeCategory(category.id)}
+                            onCancel={null}
+                            buttonText={null}
                             icon="trash"
-                          ></Button>
+                          />
                         </Form.Group>
                       ))
                     : null}
