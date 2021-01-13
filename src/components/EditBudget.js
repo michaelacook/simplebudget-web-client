@@ -170,11 +170,7 @@ export default function EditBudget({
       />
       <Grid columns={1}>
         <Grid.Column>
-          <Segment
-            raised
-            className="mt-1"
-            style={{ padding: "35px", marginBottom: "100px" }}
-          >
+          <Segment raised style={{ padding: "35px", marginBottom: "100px" }}>
             <Header as="h2">Edit Budget</Header>
             {error ? (
               <Message color="red" className="mt-1">
