@@ -36,13 +36,13 @@ export default function Login({ login, getBudgets, getBills }) {
         Login
       </Header>
       <Form>
-        <Form.Field width={10}>
+        <Form.Field width={5}>
           <input
             placeholder="username"
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Field>
-        <Form.Field width={10}>
+        <Form.Field width={5}>
           <input
             placeholder="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -50,7 +50,7 @@ export default function Login({ login, getBudgets, getBills }) {
           />
         </Form.Field>
         <Form.Field>
-          <Form.Field width={10}>
+          <Form.Field width={5}>
             <Checkbox
               label="Keep me logged in"
               onChange={(e) => setCheckbox(!checkbox)}
