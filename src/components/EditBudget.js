@@ -275,7 +275,7 @@ export default function EditBudget({
                   content="Undo all changes"
                   trigger={
                     <Button onClick={reset} className="mt-1">
-                      <Icon name="repeat" />
+                      <Icon name="refresh" />
                       Reset
                     </Button>
                   }
