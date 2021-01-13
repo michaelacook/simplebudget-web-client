@@ -8,6 +8,7 @@ import {
   Header,
   Icon,
   Message,
+  Popup,
   Segment,
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
@@ -270,11 +271,19 @@ export default function EditBudget({
                   <Icon name="save" />
                   Save
                 </Button>
-                <Button onClick={reset} className="mt-1">
-                  <Icon name="repeat" />
-                  Reset
-                </Button>
-                <Button icon="trash"></Button>
+                <Popup
+                  content="Undo all changes"
+                  trigger={
+                    <Button onClick={reset} className="mt-1">
+                      <Icon name="repeat" />
+                      Reset
+                    </Button>
+                  }
+                />
+                <Popup
+                  content="Delete this budget"
+                  trigger={<Button icon="trash"></Button>}
+                />
               </React.Fragment>
             ) : null}
           </Segment>
