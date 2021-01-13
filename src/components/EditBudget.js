@@ -164,9 +164,8 @@ export default function EditBudget({
     <Container>
       <Breadcrumb
         sections={[
-          { name: "Dashboard", path: "/" },
-          { name: "Budgets", path: "/budgets/manage" },
-          { name: "Manage", path: `/budgets/manage/${id}` },
+          { name: "Manage Budgets", path: "/budgets/manage" },
+          { name: budget.title, path: `/budgets/manage/${id}` },
         ]}
       />
       <Grid columns={1}>
