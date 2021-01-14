@@ -59,7 +59,7 @@ export default function App() {
    * @param {String} method - HTTP verb
    * @param {Object} user - send Basic Auth header if user present
    * @param {Object} body - send HTTP payload if present
-   * @return {Func} fetch request
+   * @return {Promise} fetch request
    */
   function HTTPRequest(url, method, user, body = null) {
     const headers = {
@@ -113,7 +113,7 @@ export default function App() {
    * Send POST request with Basic Auth header to add a bill
    * @param {Object} user
    * @param {Object} payload
-   * @return {Func} fetch request
+   * @return {Promise} fetch request
    */
   function addBill(user, payload) {
     return HTTPRequest("http://localhost:5000/bill", "post", user, payload)
@@ -124,6 +124,7 @@ export default function App() {
    * @param {Object} user
    * @param {Number} id - bill PK
    * @param {Object} payload - new data
+   * @return {Promise}
    */
   function updateBill(user, id, payload) {
     return HTTPRequest(`http://localhost:5000/bill/${id}`, "put", user, payload)
@@ -262,8 +263,8 @@ export default function App() {
    * @param {String} email
    * @param {String} password
    * @param {Boolean} checkbox
-   * @param {Func} setError
-   * @return {Object} authenticated user
+   * @param {Function} setError
+   * @return {Promise} authenticated user
    */
   async function login(email, password, checkbox, setError) {
     const response = await HTTPRequest("http://localhost:5000/user", "get", {
