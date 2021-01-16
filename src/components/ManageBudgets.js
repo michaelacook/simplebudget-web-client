@@ -27,7 +27,7 @@ export default ({ budgets, deleteBudget }) => {
                       to={`/budgets/manage/${budget.id}/`}
                       compact
                       icon="edit"
-                      color="green"
+                      fd
                     />
                     <ConfirmDeleteBudgetModal
                       deleteBudget={deleteBudget}
