@@ -35,16 +35,18 @@ export default function FinancialProfile({ user, bills }) {
                 ))}
               </React.Fragment>
             ) : null}
-            <Table.Row>
-              <Table.Cell className="bold">Total</Table.Cell>
-              <Table.Cell className="bold">
-                $
-                {bills
-                  .map((bill) => Number(bill.amount))
-                  .reduce((acc, curr) => acc + curr)
-                  .toFixed(2)}
-              </Table.Cell>
-            </Table.Row>
+            {bills.length ? (
+              <Table.Row>
+                <Table.Cell className="bold">Total</Table.Cell>
+                <Table.Cell className="bold">
+                  $
+                  {bills
+                    .map((bill) => Number(bill.amount))
+                    .reduce((acc, curr) => acc + curr, 0)
+                    .toFixed(2)}
+                </Table.Cell>
+              </Table.Row>
+            ) : null}
           </Table.Body>
         </Table>
         {!bills.length ? <p>You have not added any bills yet.</p> : null}
