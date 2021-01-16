@@ -25,7 +25,6 @@ export default ({ budgets, deleteBudget }) => {
                     <Button
                       as={Link}
                       to={`/budgets/manage/${budget.id}/`}
-                      compact
                       icon="edit"
                       fd
                     />
