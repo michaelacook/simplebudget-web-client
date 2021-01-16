@@ -14,7 +14,7 @@ export default ({ deleteBudget, budgetId }) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button compact icon="trash" />}
+      trigger={<Button icon="trash" />}
     >
       <Modal.Header style={{ color: "red" }}>
         <Icon name="warning sign"></Icon>

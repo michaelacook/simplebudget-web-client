@@ -13,6 +13,7 @@ import {
 } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
 import ConfirmDeleteCategory from "./modals/ConfirmDeleteCategory"
+import ConfirmDeleteBudgetModal from "./modals/ConfirmDeleteBudgetModal"
 import Cookies from "js-cookie"
 
 export default function EditBudget({
@@ -23,6 +24,7 @@ export default function EditBudget({
   addNewCategory,
   deleteCategory,
   updateBudget,
+  deleteBudget,
 }) {
   const [budget, setBudget] = useState([])
   const [title, setTitle] = useState("")
@@ -282,7 +284,12 @@ export default function EditBudget({
                 />
                 <Popup
                   content="Delete this budget"
-                  trigger={<Button icon="trash"></Button>}
+                  trigger={
+                    <ConfirmDeleteBudgetModal
+                      budgetId={budget.id}
+                      deleteBudget={deleteBudget}
+                    />
+                  }
                 />
               </React.Fragment>
             ) : null}

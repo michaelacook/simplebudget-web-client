@@ -377,6 +377,7 @@ export default function App() {
             getBudget={getBudget}
             addNewCategory={addCategory}
             updateBudget={updateBudget}
+            deleteBudget={deleteBudget}
             deleteCategory={deleteCategory}
           />
         </PrivateRoute>
