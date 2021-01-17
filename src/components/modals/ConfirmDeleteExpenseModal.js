@@ -14,7 +14,7 @@ export default function ConfirmDeleteExpenseModal({ handleDelete }) {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button icon="trash" color="red" />}
+      trigger={<Button icon="trash" />}
     >
       <Modal.Header style={{ color: "red" }}>
         <Icon name="warning sign"></Icon>
