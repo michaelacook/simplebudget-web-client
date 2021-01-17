@@ -261,13 +261,12 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
                     content="Click to edit expenditure"
                     trigger={
                       <Table.Cell
-                        selectable
                         onClick={(e) =>
                           exportStateToEditExpenditure(e, expenditure.id)
                         }
                         style={{ cursor: "pointer" }}
                       >
-                        ${expenditure.amount.toFixed(2)}
+                        <div>${expenditure.amount.toFixed(2)}</div>
                       </Table.Cell>
                     }
                   />
