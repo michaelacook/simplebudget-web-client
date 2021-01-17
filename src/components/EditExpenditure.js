@@ -31,6 +31,7 @@ export default function EditExpenditure({
   const [error, setError] = useState("")
   const [buttonText, setButtonText] = useState("Save")
   const [categories, setCategories] = useState("")
+  const state = history.location.state
 
   useEffect(() => {
     getExpenditure(id)
@@ -66,7 +67,7 @@ export default function EditExpenditure({
     setLoading(true)
     const payload = {}
     if (amount) {
-      payload.amount = amount
+      payload.amount = Number(amount)
     }
     if (year) {
       payload.year = year
@@ -84,6 +85,18 @@ export default function EditExpenditure({
         })
         .catch((error) => setError(error))
     }
+  }
+
+  /**
+   * Send state back to ViewSpending
+   * @param {Object} e - synthetic DOM event
+   */
+  function backToViewPrevious(e) {
+    e.preventDefault()
+    history.push({
+      pathname: "/expenditures/view",
+      state,
+    })
   }
 
   function handleDelete() {
@@ -146,7 +159,7 @@ export default function EditExpenditure({
               fluid
               type="number"
               label="Amount"
-              value={Number(amount)}
+              value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
           </Form.Field>
@@ -162,6 +175,7 @@ export default function EditExpenditure({
             <Icon name="save" />
             {buttonText}
           </Button>
+          <Button onClick={(e) => backToViewPrevious(e)}>Back</Button>
           <ConfirmDeleteExpenseModal handleDelete={handleDelete} />
         </Form>
       </Segment>

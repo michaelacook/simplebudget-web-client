@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 import {
   Button,
   Container,
@@ -14,6 +14,8 @@ import {
 import Breadcrumb from "./Breadcrumb"
 
 export default function ViewSpending({ getExpenditures, user, budgets }) {
+  const history = useHistory()
+  const state = history.location.state
   const months = {
     1: "January",
     2: "February",
@@ -30,10 +32,10 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
   }
   const [currentPage, setCurrentPage] = useState(1)
   const [numberOfPages, setNumberOfPages] = useState(1)
-  const [budget, setBudget] = useState(budgets[0])
+  const [budget, setBudget] = useState("")
   const [expenditures, setExpenditures] = useState([])
   const [year, setYear] = useState(new Date().getFullYear())
-  const [month, setMonth] = useState(new Date().getMonth() + 1)
+  const [month, setMonth] = useState("")
   const [day, setDay] = useState("")
   const [dateText, setDateText] = useState(
     `${month ? months[month] : ""} ${day ? day : ""} ${year}`
@@ -87,6 +89,30 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
     value: "any",
   })
 
+  // if history.location.state is not undefined set state to incoming state
+  useEffect(() => {
+    if (state) {
+      getExpenditures(
+        state.year,
+        state.month ? state.month : null,
+        state.day ? state.day : null,
+        state.budget.id ? state.budget.id : null
+      )
+        .then((result) => {
+          if (!result.length) {
+            return setError(
+              "There are no results for the selected filter options."
+            )
+          }
+          const pages = chunkArray(result, 10)
+          setExpenditures(pages)
+          setNumberOfPages(pages.length)
+        })
+        .finally(() => setLoading(false))
+        .catch((error) => setError(error.message))
+    }
+  }, [])
+
   function chunkArray(array, size) {
     if (array.length <= size) {
       return [array]
@@ -133,6 +159,26 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
       })
       .finally(() => setLoading(false))
       .catch((error) => setError(error.message))
+  }
+
+  /**
+   * Send current view state when redirecting to edit expenditure
+   * Allows state to be passed back to persist current selections
+   * @param {Object} e - synthetic DOM event
+   * @param {Number} expenditureId - PK for expenditure
+   */
+  function exportStateToEditExpenditure(e, expenditureId) {
+    e.preventDefault()
+    history.push({
+      pathname: `/expenditures/${expenditureId}`,
+      state: {
+        currentPage,
+        budget,
+        year,
+        month,
+        day,
+      },
+    })
   }
 
   return (
@@ -214,10 +260,14 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
                   <Popup
                     content="Click to edit expenditure"
                     trigger={
-                      <Table.Cell selectable>
-                        <Link to={`/expenditures/${expenditure.id}`}>
-                          ${expenditure.amount.toFixed(2)}
-                        </Link>
+                      <Table.Cell
+                        selectable
+                        onClick={(e) =>
+                          exportStateToEditExpenditure(e, expenditure.id)
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        ${expenditure.amount.toFixed(2)}
                       </Table.Cell>
                     }
                   />
