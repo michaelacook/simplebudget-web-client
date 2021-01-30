@@ -19,6 +19,7 @@ import ManageBills from "./components/ManageBills"
 import AddBill from "./components/AddBill"
 import Editbill from "./components/EditBill"
 import PrivateRoute from "./components/PrivateRoute"
+import EditAccount from "./components/EditAccount"
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -429,6 +430,9 @@ export default function App() {
         </Route>
         <PrivateRoute user={user} path="/account/:slug?">
           <Account user={user} bills={bills} deleteUser={deleteUser} />
+        </PrivateRoute>
+        <PrivateRoute user={user} path="/account/edit" exact>
+          <EditAccount />
         </PrivateRoute>
         <PrivateRoute user={user} path="/settings" exact>
           <Settings />
