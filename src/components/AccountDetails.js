@@ -1,9 +1,6 @@
-/*
-On page refresh, props becomes null. this has to be fixed.
-*/
-
 import React, { Fragment } from "react"
 import ConfirmDeleteAccountModal from "./modals/ConfirmDeleteAccountModal"
+import { Link } from "react-router-dom"
 import {
   Button,
   Container,
@@ -45,7 +42,7 @@ export default function AccountDetails({
             </Table.Row>
           </Table.Body>
         </Table>
-        <Button size="medium" color="teal">
+        <Button as={Link} to="/account/edit" size="medium" color="teal">
           <Icon name="edit" />
           Edit
         </Button>
