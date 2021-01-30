@@ -6,7 +6,6 @@ import React, { Fragment } from "react"
 import ConfirmDeleteAccountModal from "./modals/ConfirmDeleteAccountModal"
 import {
   Button,
-  Confirm,
   Container,
   Divider,
   Grid,
@@ -15,10 +14,10 @@ import {
   Table,
 } from "semantic-ui-react"
 
-export default ({
+export default function AccountDetails({
   user: { id, firstName, lastName, email, createdAt, updatedAt },
   deleteUser,
-}) => {
+}) {
   return (
     <Fragment>
       <Container>

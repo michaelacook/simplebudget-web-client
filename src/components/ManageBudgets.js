@@ -1,11 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
 import { Link } from "react-router-dom"
 import { Button, Container, Header, List, Segment } from "semantic-ui-react"
 import Breadcrumb from "./Breadcrumb"
 import ConfirmDeleteBudgetModal from "./modals/ConfirmDeleteBudgetModal"
 
-export default ({ budgets, deleteBudget }) => {
-  const [loading, setLoading] = useState(false)
+export default function ManageBudgets({ budgets, deleteBudget }) {
   return (
     <Container>
       <Breadcrumb
@@ -14,12 +13,12 @@ export default ({ budgets, deleteBudget }) => {
           { name: "Manage", path: "/budgets/manage" },
         ]}
       />
-      <Segment raised className="mt-2" style={{ padding: "35px" }}>
+      <Segment raised="true" className="mt-2" style={{ padding: "35px" }}>
         <Header as="h2">Manage Budgets</Header>
         <List divided relaxed className="mt-2">
           {budgets ? (
             budgets.map((budget) => (
-              <List.Item style={{ marginBottom: "12px" }}>
+              <List.Item key={budget.id} style={{ marginBottom: "12px" }}>
                 <List.Content>
                   <List.Content floated="right">
                     <Button

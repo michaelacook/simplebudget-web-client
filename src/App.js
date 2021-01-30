@@ -39,7 +39,7 @@ export default function App() {
     } else {
       getBills(user)
     }
-  }, [0])
+  }, [])
 
   /**
    * Log out of the current session

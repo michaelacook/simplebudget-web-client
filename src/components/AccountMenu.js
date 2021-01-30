@@ -2,7 +2,7 @@ import React from "react"
 import { Container, Header, Menu } from "semantic-ui-react"
 import { NavLink } from "react-router-dom"
 
-export default () => {
+export default function AccountMenu() {
   return (
     <Container className="mt-2">
       <Header as="h1" textAlign="right">

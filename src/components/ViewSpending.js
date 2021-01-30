@@ -210,6 +210,7 @@ export default function ViewSpending({ getExpenditures, user, budgets }) {
             <Form.Select
               fluid
               placeholder="Year"
+              value={year}
               options={yearSelectOptions}
               onChange={(e, data) => setYear(data.value)}
             />
