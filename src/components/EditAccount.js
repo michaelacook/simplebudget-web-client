@@ -80,6 +80,8 @@ export default function EditAccount({ user, setUser, updateUser }) {
         .json()
         .then((data) => {
           data.rawPass = password || user.rawPass
+          data.netMonthlyIncome = Number(data.netMonthlyIncome)
+          data.netSalary = Number(data.netSalary)
           Cookies.set("user", JSON.stringify(data))
           setUser(data)
         })
