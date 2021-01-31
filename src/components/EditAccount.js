@@ -31,6 +31,7 @@ export default function EditAccount({ user, setUser, updateUser }) {
     user.netMonthlyIncome
   )
   const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
   const [validationErrors, setValidationErrors] = useState(params)
   const [loading, setLoading] = useState(false)
   const [buttonText, setButtonText] = useState("Save")
@@ -45,6 +46,7 @@ export default function EditAccount({ user, setUser, updateUser }) {
       confirmPassword: false,
       netMonthlyIncome: false,
     })
+    setSuccessMessage("")
     const payload = {
       firstName,
       lastName,
@@ -84,6 +86,7 @@ export default function EditAccount({ user, setUser, updateUser }) {
         .finally(() => {
           setLoading(false)
           setButtonText("Saved!")
+          setSuccessMessage("Your account has been updated.")
         })
     }
   }
@@ -100,6 +103,9 @@ export default function EditAccount({ user, setUser, updateUser }) {
           ]}
         />
         {error ? <Message color="red">{error}</Message> : null}
+        {successMessage ? (
+          <Message color="yellow">{successMessage}</Message>
+        ) : null}
         <Header as="h1">Edit Account</Header>
         <Grid.Column className="mt-2">
           <Form>
