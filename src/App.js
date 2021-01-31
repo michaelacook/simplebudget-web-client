@@ -429,7 +429,7 @@ export default function App() {
           <Signup />
         </Route>
         <PrivateRoute user={user} path="/account/edit">
-          <EditAccount />
+          <EditAccount user={user} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/account/:slug?" exact>
           <Account user={user} bills={bills} deleteUser={deleteUser} />
