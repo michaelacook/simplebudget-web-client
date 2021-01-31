@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import {
   Button,
   Container,
@@ -9,10 +9,10 @@ import {
   Icon,
   Message,
 } from "semantic-ui-react"
+import Cookies from "js-cookie"
 import Breadcrumb from "./Breadcrumb"
 
-export default function EditAccount({ user }) {
-  console.log(user)
+export default function EditAccount({ user, setUser, updateUser }) {
   const params = {
     firstName: false,
     lastName: false,
@@ -33,6 +33,33 @@ export default function EditAccount({ user }) {
   const [error, setError] = useState("")
   const [validationErrors, setValidationErrors] = useState(params)
   const [loading, setLoading] = useState(false)
+  const [buttonText, setButtonText] = useState("Save")
+
+  function doUpdateUser() {
+    setLoading(true)
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      netSalary,
+      netMonthlyIncome,
+    }
+    if (password) {
+      payload["password"] = password
+      payload["confirmPassword"] = confirmPassword
+    }
+    updateUser(user.id, payload, user)
+      .then((res) => res.json())
+      .then((data) => {
+        data.rawPass = password || user.rawPass
+        Cookies.set("user", JSON.stringify(data))
+        setUser(data)
+      })
+      .finally(() => {
+        setLoading(false)
+        setButtonText("Saved!")
+      })
+  }
 
   return (
     <Grid stretched relaxed fluid="true" stackable>
@@ -147,9 +174,9 @@ export default function EditAccount({ user }) {
             </Form.Group>
 
             <Form.Field>
-              <Button loading={loading}>
+              <Button onClick={doUpdateUser} loading={loading}>
                 <Icon name="save" />
-                Save
+                {buttonText}
               </Button>
             </Form.Field>
           </Form>
