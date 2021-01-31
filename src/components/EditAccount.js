@@ -35,8 +35,16 @@ export default function EditAccount({ user, setUser, updateUser }) {
   const [loading, setLoading] = useState(false)
   const [buttonText, setButtonText] = useState("Save")
 
-  function doUpdateUser() {
+  async function doUpdateUser() {
     setLoading(true)
+    setValidationErrors({
+      firstName: false,
+      lastName: false,
+      email: false,
+      password: false,
+      confirmPassword: false,
+      netMonthlyIncome: false,
+    })
     const payload = {
       firstName,
       lastName,
@@ -44,21 +52,40 @@ export default function EditAccount({ user, setUser, updateUser }) {
       netSalary,
       netMonthlyIncome,
     }
-    if (password) {
-      payload["password"] = password
-      payload["confirmPassword"] = confirmPassword
+    payload["password"] = password || user.rawPass
+    payload["confirmPassword"] = confirmPassword || user.rawPass
+    const response = await updateUser(user.id, payload, user)
+    if (response.status !== 200) {
+      if (response.status === 500) {
+        setError(
+          "Something went wrong. Check your internet connection and try again."
+        )
+      } else if (response.status === 401) {
+        setError(
+          "Authentication Error. Your username or password is not correct."
+        )
+      } else if (response.status === 400) {
+        await response.json().then((errors) => {
+          const messages = params
+          errors.errors.forEach((error) => (messages[error.param] = error.msg))
+          setValidationErrors(messages)
+          setLoading(false)
+          setButtonText("Save")
+        })
+      }
+    } else {
+      await response
+        .json()
+        .then((data) => {
+          data.rawPass = password || user.rawPass
+          Cookies.set("user", JSON.stringify(data))
+          setUser(data)
+        })
+        .finally(() => {
+          setLoading(false)
+          setButtonText("Saved!")
+        })
     }
-    updateUser(user.id, payload, user)
-      .then((res) => res.json())
-      .then((data) => {
-        data.rawPass = password || user.rawPass
-        Cookies.set("user", JSON.stringify(data))
-        setUser(data)
-      })
-      .finally(() => {
-        setLoading(false)
-        setButtonText("Saved!")
-      })
   }
 
   return (
