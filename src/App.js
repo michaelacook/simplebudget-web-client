@@ -246,6 +246,21 @@ export default function App() {
   }
 
   /**
+   * Send PUT request with Basic Auth header to update a user
+   * @param {Number} id
+   * @param {Object} payload
+   * @param {Object} user
+   */
+  function updateUser(id, payload, user) {
+    return HTTPRequest(
+      `http://localhost:5000/user/${id}/update`,
+      "put",
+      user,
+      payload
+    )
+  }
+
+  /**
    * Send DELETE request with Basic Auth header to close a user account
    * After deleting, end user session
    * @param {Number} id - user PK
@@ -429,7 +444,7 @@ export default function App() {
           <Signup />
         </Route>
         <PrivateRoute user={user} path="/account/edit">
-          <EditAccount user={user} />
+          <EditAccount user={user} updateUser={updateUser} />
         </PrivateRoute>
         <PrivateRoute user={user} path="/account/:slug?" exact>
           <Account user={user} bills={bills} deleteUser={deleteUser} />
