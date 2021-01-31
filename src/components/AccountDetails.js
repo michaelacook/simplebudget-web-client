@@ -42,7 +42,7 @@ export default function AccountDetails({
             </Table.Row>
           </Table.Body>
         </Table>
-        <Button as={Link} to="/account/edit" size="medium" color="teal">
+        <Button as={Link} to="/account/edit" size="medium">
           <Icon name="edit" />
           Edit
         </Button>
