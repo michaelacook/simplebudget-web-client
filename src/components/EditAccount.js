@@ -17,15 +17,15 @@ export default function EditAccount({ user }) {
     firstName: false,
     lastName: false,
     email: false,
-    oldPassword: false,
-    newPassword: false,
+    password: false,
+    confirmPassword: false,
     netMonthlyIncome: false,
   }
   const [firstName, setFirstName] = useState(user.firstName)
   const [lastName, setLastName] = useState(user.lastName)
   const [email, setEmail] = useState(user.email)
-  const [oldPassword, setOldPassword] = useState("")
-  const [newPassword, setNewPassword] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [netSalary, setNetSalary] = useState(user.netSalary)
   const [netMonthlyIncome, setNetMonthlyIncome] = useState(
     user.netMonthlyIncome
@@ -91,10 +91,10 @@ export default function EditAccount({ user }) {
                 validationErrors.oldPassword || validationErrors.newPassword
               }
             >
-              <label>Old Password</label>
+              <label>New Password</label>
               <input
-                placeholder="old password"
-                onChange={(e) => setOldPassword(e.target.value)}
+                placeholder="new password"
+                onChange={(e) => setPassword(e.target.value)}
                 type="password"
               />
               {validationErrors.password ? (
@@ -103,10 +103,10 @@ export default function EditAccount({ user }) {
             </Form.Field>
 
             <Form.Field error={validationErrors.confirmPassword}>
-              <label>New Password</label>
+              <label>Confirm New Password</label>
               <input
-                placeholder="new password"
-                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="confirm new password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 type="password"
               />
               {validationErrors.confirmPassword ? (
