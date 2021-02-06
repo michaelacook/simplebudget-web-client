@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import React, { useState } from "react"
 import {
   Button,
   Container,
@@ -9,16 +8,9 @@ import {
   Segment,
 } from "semantic-ui-react"
 import Cookies from "js-cookie"
-import Breadcrumb from "./Breadcrumb"
+import Breadcrumb from "../components/Breadcrumb"
 
-export default function EditBill({
-  user,
-  bills,
-  updateBill,
-  setBills,
-  getBill,
-}) {
-  const { id } = useParams()
+export default function AddBill({ user, bills, addBill, setBills }) {
   const [title, setTitle] = useState("")
   const [amount, setAmount] = useState("")
   const [due, setDue] = useState("")
@@ -26,53 +18,50 @@ export default function EditBill({
   const [buttonText, setButtonText] = useState("Save")
   const [error, setError] = useState("")
 
-  useEffect(() => {
-    getBill(id, user)
-      .then((response) => response.json())
-      .then((bill) => {
-        setTitle(bill.title)
-        setAmount(bill.amount)
-        setDue(bill.due)
+  function handleAddBill() {
+    if (title && amount && due && user) {
+      setLoading(true)
+      addBill(user, {
+        title,
+        amount,
+        due,
+        userId: user.id,
       })
-      .catch((error) => setError(error))
-  }, [])
-
-  function handleSaveBill() {
-    setLoading(true)
-    updateBill(user, id, {
-      title,
-      amount,
-      due,
-    })
-      .then((response) => response.json())
-      .then((bill) => {
-        setBills([...bills.filter((el) => el.id !== bill.id), bill])
-        Cookies.set("bills", JSON.stringify(bills))
-        setTitle(bill.title)
-        setAmount(bill.amount)
-        setDue(bill.due)
-        setButtonText("Saved!")
-        setLoading(false)
-      })
-      .catch((error) => setError(error))
+        .then((response) => response.json())
+        .then((bill) => {
+          setBills([...bills, bill])
+          Cookies.set("bills", JSON.stringify(bills))
+        })
+        .finally(() => {
+          setLoading(false)
+          setButtonText("Saved!")
+          setTitle("")
+          setAmount("")
+          setDue("")
+        })
+        .catch((error) => {
+          setError(error)
+        })
+    }
   }
 
   return (
     <Container>
       <Breadcrumb
+        color="blue"
         sections={[
           { name: "Dashboard", path: "/" },
           { name: "Manage Bills", path: "/bills" },
-          { name: "Edit", path: `/bills/${id}` },
+          { name: "New", path: "/bills/new" },
         ]}
       />
-
       <Segment raised className="mt-2" style={{ padding: "35px" }}>
-        <Header as="h1">Edit Bill</Header>
+        <Header as="h1">Add Bill</Header>
         <Form>
           <Form.Field width="8">
             <Form.Input
               fluid
+              placeholder="E.g. Phone Bill"
               label="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -81,6 +70,7 @@ export default function EditBill({
           <Form.Field width="8">
             <Form.Input
               fluid
+              placeholder="E.g. 58.25"
               label="Amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -90,12 +80,13 @@ export default function EditBill({
             <Form.Input
               fluid
               type="Number"
+              placeholder="Indicate day of the month"
               label="Due Date"
               value={due}
               onChange={(e) => setDue(e.target.value)}
             />
           </Form.Field>
-          <Button loading={loading} onClick={handleSaveBill}>
+          <Button loading={loading} onClick={handleAddBill}>
             <Icon name="save" />
             {buttonText}
           </Button>

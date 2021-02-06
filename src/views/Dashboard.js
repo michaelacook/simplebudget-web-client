@@ -1,7 +1,7 @@
 import React from "react"
 import { Container, Grid, Header, Button, Icon } from "semantic-ui-react"
 import { Link, useHistory } from "react-router-dom"
-import Reminder from "./Reminder"
+import Reminder from "../components/Reminder"
 
 export default ({ user }) => {
   const date = new Date()

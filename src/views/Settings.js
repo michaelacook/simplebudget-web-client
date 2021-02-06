@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Button, Container, Header, Segment } from "semantic-ui-react"
-import ToggleSwitch from "./ToggleSwitch"
-import Breadcrumb from "./Breadcrumb"
+import ToggleSwitch from "../components/ToggleSwitch"
+import Breadcrumb from "../components/Breadcrumb"
 
 export default () => {
   return (

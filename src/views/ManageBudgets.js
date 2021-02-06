@@ -1,8 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { Button, Container, Header, List, Segment } from "semantic-ui-react"
-import Breadcrumb from "./Breadcrumb"
-import ConfirmDeleteBudgetModal from "./modals/ConfirmDeleteBudgetModal"
+import Breadcrumb from "../components/Breadcrumb"
+import ConfirmDeleteBudgetModal from "../modals/ConfirmDeleteBudgetModal"
 
 export default function ManageBudgets({ budgets, deleteBudget }) {
   return (

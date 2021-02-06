@@ -9,8 +9,8 @@ import {
   Segment,
 } from "semantic-ui-react"
 import { useParams, useHistory } from "react-router-dom"
-import Breadcrumb from "./Breadcrumb"
-import ConfirmDeleteExpenseModal from "./modals/ConfirmDeleteExpenseModal"
+import Breadcrumb from "../components/Breadcrumb"
+import ConfirmDeleteExpenseModal from "../modals/ConfirmDeleteExpenseModal"
 
 export default function EditExpenditure({
   user,

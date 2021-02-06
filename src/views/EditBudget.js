@@ -11,9 +11,9 @@ import {
   Popup,
   Segment,
 } from "semantic-ui-react"
-import Breadcrumb from "./Breadcrumb"
-import ConfirmDeleteCategory from "./modals/ConfirmDeleteCategory"
-import ConfirmDeleteBudgetModal from "./modals/ConfirmDeleteBudgetModal"
+import Breadcrumb from "../components/Breadcrumb"
+import ConfirmDeleteCategory from "../modals/ConfirmDeleteCategory"
+import ConfirmDeleteBudgetModal from "../modals/ConfirmDeleteBudgetModal"
 import Cookies from "js-cookie"
 
 export default function EditBudget({

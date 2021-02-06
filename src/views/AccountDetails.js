@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import ConfirmDeleteAccountModal from "./modals/ConfirmDeleteAccountModal"
+import ConfirmDeleteAccountModal from "../modals/ConfirmDeleteAccountModal"
 import { Link } from "react-router-dom"
 import {
   Button,
