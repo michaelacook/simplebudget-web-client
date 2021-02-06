@@ -11,7 +11,7 @@ import {
   Table,
   Popup,
 } from "semantic-ui-react"
-import Breadcrumb from "./Breadcrumb"
+import Breadcrumb from "../components/Breadcrumb"
 
 export default function ViewSpending({ getExpenditures, user, budgets }) {
   const history = useHistory()

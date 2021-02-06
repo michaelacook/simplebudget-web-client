@@ -11,8 +11,8 @@ import {
   Segment,
 } from "semantic-ui-react"
 import Cookies from "js-cookie"
-import Breadcrumb from "./Breadcrumb"
-import ProTip from "./ProTip"
+import Breadcrumb from "../components/Breadcrumb"
+import ProTip from "../components/ProTip"
 
 export default function NewBudget({ user, budgets, setBudgets, addBudget }) {
   const [categories, setCategories] = useState([])

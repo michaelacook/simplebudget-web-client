@@ -8,7 +8,7 @@ import {
   Segment,
 } from "semantic-ui-react"
 import Cookies from "js-cookie"
-import Breadcrumb from "./Breadcrumb"
+import Breadcrumb from "../components/Breadcrumb"
 
 export default function AddBill({ user, bills, addBill, setBills }) {
   const [title, setTitle] = useState("")

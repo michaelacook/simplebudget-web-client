@@ -8,7 +8,7 @@ import {
   Loader,
   Segment,
 } from "semantic-ui-react"
-import Breadcrumb from "./Breadcrumb"
+import Breadcrumb from "../components/Breadcrumb"
 
 export default function BudgetView() {
   const [budget, setBudget] = useState("")

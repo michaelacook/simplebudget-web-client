@@ -1,9 +1,9 @@
 import React from "react"
 import { Menu, Container } from "semantic-ui-react"
 import { NavLink } from "react-router-dom"
-import ConfirmLogoutModal from "./modals/ConfirmLogoutModal"
+import ConfirmLogoutModal from "../modals/ConfirmLogoutModal"
 
-export default ({ user, login, logout, darkmode }) => {
+export default function Navbar({ user, login, logout, darkmode }) {
   return (
     <Menu inverted={!darkmode} style={{ borderRadius: "0" }}>
       <Container>

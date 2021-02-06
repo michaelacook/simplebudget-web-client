@@ -9,7 +9,7 @@ import {
   List,
   Segment,
 } from "semantic-ui-react"
-import Breadcrumb from "./Breadcrumb"
+import Breadcrumb from "../components/Breadcrumb"
 
 export default function AddExpense(props) {
   const [amount, setAmount] = useState("")

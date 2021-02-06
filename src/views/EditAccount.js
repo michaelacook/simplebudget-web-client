@@ -10,7 +10,7 @@ import {
   Message,
 } from "semantic-ui-react"
 import Cookies from "js-cookie"
-import Breadcrumb from "./Breadcrumb"
+import Breadcrumb from "../components/Breadcrumb"
 
 export default function EditAccount({ user, setUser, updateUser }) {
   const params = {

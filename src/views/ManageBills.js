@@ -1,8 +1,8 @@
 import React from "react"
 import { Button, Container, Header, List, Segment } from "semantic-ui-react"
 import { Link } from "react-router-dom"
-import Breadcrumb from "./Breadcrumb"
-import ConfirmDeleteBillModal from "./modals/ConfirmDeleteBillModal"
+import Breadcrumb from "../components/Breadcrumb"
+import ConfirmDeleteBillModal from "../modals/ConfirmDeleteBillModal"
 
 export default function ManageBills({ bills, deleteBill }) {
   return (
